@@ -19,7 +19,24 @@ public class Vrsta {
 
 	@Override
 	public String toString() {
+		String niz = "[";
+		for (int i = 0; i < x.size(); ++i) {
+			niz += Integer.toString(x.get(i));
+			if (i != x.size() - 1 ) {
+				niz += "; ";
+			}
+		}
+		niz += "], [";
+		for (int i = 0; i < y.size(); ++i) {
+			niz += Integer.toString(y.get(i));
+			if (i != y.size() - 1 ) {
+				niz += "; ";
+			}
+		}
+		
 		//return "Vrsta [x=" + LinkedList.toString(x) + ", y=" + LinkedList.toString(y) + "]";
-		return "TO DO";
+		return niz;
 	}
+	
+	
 }
