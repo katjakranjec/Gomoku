@@ -1,5 +1,6 @@
 package logika;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -10,7 +11,7 @@ public class Igra {
 	
 	private Polje[][] plosca; // Igralno polje
 	public Igralec naPotezi; // Ime igralca, ki je na potezi
-	public List<Vrsta> vrste = new LinkedList<Vrsta>();
+	private static final HashSet<Vrsta> VRSTE = new HashSet<Vrsta>();
 	
 	public void preverjanje(int x, int y) {
 		
@@ -25,13 +26,13 @@ public class Igra {
 		if (y > (N - PET_V_VRSTO)) koncniY = N - PET_V_VRSTO;
 		
 		for (int a = trenutniY; a < koncniY + 1; a++) {
-			int[] vrsta_x = new int[PET_V_VRSTO];
-			int[] vrsta_y = new int[PET_V_VRSTO];
+			LinkedList<Integer> vrsta_x = new LinkedList<Integer>();
+			LinkedList<Integer> vrsta_y = new LinkedList<Integer>();
 			for (int k = 0; k < PET_V_VRSTO; k++) {
-				vrsta_x[k] = trenutniX;
-				vrsta_y[k] = trenutniY + k;
+				vrsta_x.add(k, trenutniX);
+				vrsta_y.add(k, trenutniY + k);
 			}
-			vrste.add(new Vrsta(vrsta_x, vrsta_y));
+			VRSTE.add(new Vrsta(vrsta_x, vrsta_y));
 		}
 		
 		trenutniX = x;
@@ -77,13 +78,13 @@ public class Igra {
 		else {
 			for (int b = trenutniX; b < koncniX + 1; b++) {
 				for (int a = trenutniY; a < koncniY + 1; a++) {
-					int[] vrsta_x = new int[PET_V_VRSTO];
-					int[] vrsta_y = new int[PET_V_VRSTO];
+					LinkedList<Integer> vrsta_x = new LinkedList<Integer>();
+					LinkedList<Integer> vrsta_y = new LinkedList<Integer>();
 					for (int k = 0; k < PET_V_VRSTO; k++) {
-						vrsta_x[k] = trenutniX + k;
-						vrsta_y[k] = trenutniY + k;
+						vrsta_x.add(k, trenutniX + k);
+						vrsta_y.add(k, trenutniY + k);
 					}
-					vrste.add(new Vrsta(vrsta_x, vrsta_y));
+					VRSTE.add(new Vrsta(vrsta_x, vrsta_y));
 				}
 			}
 		}
@@ -99,13 +100,13 @@ public class Igra {
 		if (x > (N - PET_V_VRSTO)) koncniX = N - PET_V_VRSTO;
 		
 		for (int a = trenutniX; a < koncniX + 1; a++) {
-			int[] vrsta_x = new int[PET_V_VRSTO]; 
-			int[] vrsta_y = new int[PET_V_VRSTO];
+			LinkedList<Integer> vrsta_x = new LinkedList<Integer>();
+			LinkedList<Integer> vrsta_y = new LinkedList<Integer>();
 			for (int k = 0; k < PET_V_VRSTO; k++) {
-				vrsta_x[k] = trenutniX + k;
-				vrsta_y[k] = trenutniY;
+				vrsta_x.add(k, trenutniX + k);
+				vrsta_y.add(k, trenutniY);
 			}
-			vrste.add(new Vrsta(vrsta_x, vrsta_y));
+			VRSTE.add(new Vrsta(vrsta_x, vrsta_y));
 		}
 		
 		//SMER JZ-> SV
@@ -146,13 +147,13 @@ public class Igra {
 		else {
 			for (int b = trenutniX; b < koncniX + 1; b++) {
 				for (int a = trenutniY; a < koncniY + 1; a++) {
-					int[] vrsta_x = new int[PET_V_VRSTO];
-					int[] vrsta_y = new int[PET_V_VRSTO];
+					LinkedList<Integer> vrsta_x = new LinkedList<Integer>();
+					LinkedList<Integer> vrsta_y = new LinkedList<Integer>();
 					for (int k = 0; k < PET_V_VRSTO; k++) {
-						vrsta_x[k] = trenutniX + k;
-						vrsta_y[k] = trenutniY - k;
+						vrsta_x.add(k, trenutniX + k);
+						vrsta_y.add(k, trenutniY - k);
 					}
-					vrste.add(new Vrsta(vrsta_x, vrsta_y));
+					VRSTE.add(new Vrsta(vrsta_x, vrsta_y));
 				}
 			}
 		}
@@ -186,7 +187,7 @@ public class Igra {
 		int count_B = 0;
 		for (int k = 0; k < PET_V_VRSTO && (count_W == 0 || count_B == 0); k++) {
 			//System.out.println("A to kej nardi?");
-			switch (plosca[t.x[k]][t.y[k]]) {
+			switch (plosca[t.x.getFirst()][t.y.getFirst()]) {
 			case B: count_B += 1; break;
 			case W: count_W += 1; break;
 			case PRAZNO: break;
@@ -199,7 +200,7 @@ public class Igra {
 
 
 	public Vrsta zmagovalnaVrsta() {
-		for (Vrsta t : vrste) {
+		for (Vrsta t : VRSTE) {
 			Igralec lastnik = cigavaVrsta(t);
 			if (lastnik != null) return t;
 		}
@@ -211,7 +212,7 @@ public class Igra {
 		// Ali imamo zmagovalca?
 		Vrsta t = zmagovalnaVrsta();
 		if (t != null) {
-			switch (plosca[t.x[0]][t.y[0]]) {
+			switch (plosca[t.x.getFirst()][t.y.getFirst()]) {
 			case B: return Stanje.ZMAGA_B; 
 			case W: return Stanje.ZMAGA_W;
 			case PRAZNO: assert false;
