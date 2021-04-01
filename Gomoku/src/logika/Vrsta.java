@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 public class Vrsta {
 	// Vrsta na plošèi je predstavljena z dvema tabelama dolžine 5.
-	// To sta tabeli x in y koordinat.
+	// To sta tabeli x in y koordinat.bla
 	public int[] x;
 	public int[] y;
 	
