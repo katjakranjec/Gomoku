@@ -82,7 +82,7 @@ public class Vodja {
 	private static Random random = new Random ();
 	
 	public static Koordinati racunalnikovaPoteza(Igra igra) {
-		List<Koordinati> moznePoteze = igra.poteze();
+		List<Koordinati> moznePoteze = igra.POTEZE;
 		int randomIndex = random.nextInt(moznePoteze.size());
 		Koordinati poteza = moznePoteze.get(randomIndex);
 		igra.odigraj(poteza);
