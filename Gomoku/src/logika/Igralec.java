@@ -45,18 +45,18 @@ public enum Igralec {
 	}
 	
 	private void vrsteVSmeri(int a1, int a2, int k1, int k2, int x, int y){
-		for (int a = 0; a < 5; ++a) {
+		for (int a = 0; a < Igra.PET_V_VRSTO; ++a) {
 			LinkedList<Integer> vrsta_x = new LinkedList<Integer>();
 			LinkedList<Integer> vrsta_y = new LinkedList<Integer>();
 			int mejaX = x + a1 * a;
 			int mejaY = y + a2 * a;
 			for (int k = 0; k < Igra.PET_V_VRSTO; ++k) {
-				if (mejaX + k1 * k >= 0 && mejaX + k1 * k < 15 && mejaY + k2 * k >= 0 && mejaY + k2 * k < 15) {
+				if (mejaX + k1 * k >= 0 && mejaX + k1 * k < Igra.N && mejaY + k2 * k >= 0 && mejaY + k2 * k < Igra.N) {
 					vrsta_x.add(mejaX + k1 * k);
 					vrsta_y.add(mejaY + k2 * k);
 				}
 			}
-			if (vrsta_x.size() == 5) {
+			if (vrsta_x.size() == Igra.PET_V_VRSTO) {
 				VRSTE.add(new Vrsta(vrsta_x, vrsta_y));
 			}
 		}
