@@ -9,6 +9,7 @@ public enum Igralec {
 	W, B;
 	
 	private HashSet<Vrsta> VRSTE = new HashSet<Vrsta>();
+	private LinkedList<Koordinati> ODIGRANE = new LinkedList<Koordinati>();
 
 	public Igralec nasprotnik() {
 		return (this == W ? B : W);
@@ -40,6 +41,9 @@ public enum Igralec {
 		
 		//SMER JZ -> SV
 		vrsteVSmeri(-1, 1, 1, -1, x, y);
+		
+		//Doda koordinato v ODIGRANE
+		ODIGRANE.add(q);
 
 		return VRSTE;
 	}
@@ -59,6 +63,19 @@ public enum Igralec {
 			if (vrsta_x.size() == Igra.PET_V_VRSTO) {
 				VRSTE.add(new Vrsta(vrsta_x, vrsta_y));
 			}
+		}
+	}
+	
+	public void odstraniVrste() {
+		Koordinati zadnja_poteza = ODIGRANE.getLast();
+		ODIGRANE.removeLast();
+		for (Vrsta vrsta: VRSTE) {
+			LinkedList<Koordinati> koordinate = Vrsta.koordinateVVrsti(vrsta);
+			int stevilo = 0;
+			for (Koordinati u: koordinate) {
+				if (ODIGRANE.contains(u)) stevilo += 1;
+			}
+			if (stevilo == 0) VRSTE.remove(vrsta);
 		}
 	}
 }
