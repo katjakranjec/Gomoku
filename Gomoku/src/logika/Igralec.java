@@ -55,7 +55,7 @@ public enum Igralec {
 			int mejaX = x + a1 * a;
 			int mejaY = y + a2 * a;
 			for (int k = 0; k < Igra.PET_V_VRSTO; ++k) {
-				if (mejaX + k1 * k >= 0 && mejaX + k1 * k < Igra.N && mejaY + k2 * k >= 0 && mejaY + k2 * k < Igra.N) {
+				if (mejaX + k1 * k >= 0 && mejaX + k1 * k < Igra.n && mejaY + k2 * k >= 0 && mejaY + k2 * k < Igra.n) {
 					vrsta_x.add(mejaX + k1 * k);
 					vrsta_y.add(mejaY + k2 * k);
 				}
@@ -67,7 +67,7 @@ public enum Igralec {
 	}
 	
 	public void odstraniVrste() {
-		Koordinati zadnja_poteza = ODIGRANE.getLast();
+		// Koordinati zadnja_poteza = ODIGRANE.getLast();
 		ODIGRANE.removeLast();
 		for (Vrsta vrsta: VRSTE) {
 			LinkedList<Koordinati> koordinate = Vrsta.koordinateVVrsti(vrsta);

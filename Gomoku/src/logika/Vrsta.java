@@ -19,10 +19,10 @@ public class Vrsta {
 	}
 	
 	public static LinkedList<Koordinati> koordinateVVrsti(Vrsta a) {
-		LinkedList<Koordinati> koordinate = new LinkedList<Koordinati>;
+		LinkedList<Koordinati> koordinate = new LinkedList<Koordinati>();
 		LinkedList<Integer> vrsta_x = a.holder.getFirst();
 		LinkedList<Integer> vrsta_y = a.holder.getLast();
-		for (int i = 0; i < Igra.PET_V_VRSTO; i++) {
+		for (int i = 0; i < 5; i++) {
 			int x = vrsta_x.get(i);
 			int y = vrsta_y.get(i);
 			koordinate.add(new Koordinati(x, y));

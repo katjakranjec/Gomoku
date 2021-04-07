@@ -107,7 +107,7 @@ public class Vodja {
 			} catch (NumberFormatException e) {
 				System.out.println("Napaèen format"); continue; 
 			}
-			if (x < 0 || x >= Igra.N || y < 0 || y >= Igra.N){
+			if (x < 0 || x >= Igra.n || y < 0 || y >= Igra.n){
 				System.out.println("Napaèen format"); continue; 			
 			}
 			Koordinati poteza = new Koordinati(x,y);

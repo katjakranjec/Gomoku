@@ -8,7 +8,7 @@ import java.util.Set;
 public class Igra {
 
 	public static final int PET_V_VRSTO = 5;
-	public static final int N = 15; // Velikost igralne plošèe je N × N
+	public int n = 15; // Velikost igralne plošèe je N × N
 	
 	private Polje[][] plosca; // Igralno polje
 	public Igralec naPotezi; // Ime igralca, ki je na potezi
@@ -16,9 +16,9 @@ public class Igra {
 	
 	
 	public Igra() {
-		plosca = new Polje[N][N];
-		for (int i = 0; i < N; i++) {
-			for (int j = 0; j < N; j++) {
+		plosca = new Polje[n][n];
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < n; j++) {
 				plosca[i][j] = Polje.PRAZNO;
 				POTEZE.add(new Koordinati(i, j));
 			}
@@ -77,8 +77,8 @@ public class Igra {
 		}
 		// Ali imamo kakšno prazno polje?
 		// Èe ga imamo, igre ni konec in je nekdo na potezi
-		for (int i = 0; i < N; i++) {
-			for (int j = 0; j < N; j++) {
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < n; j++) {
 				if (plosca[i][j] == Polje.PRAZNO) return Stanje.V_TEKU;
 			}
 		}
