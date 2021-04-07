@@ -49,31 +49,31 @@ public class Vodja {
 			// Èe je s == "1", "2" ali "3"
 			Igra igra = new Igra ();
 			igranje : while (true) {
-				switch (igra.stanje()) {
+				Igralec igralec = igra.naPotezi;
+				VrstaIgralca vrstaNaPotezi = vrstaIgralca.get(igralec);
+				Koordinati poteza = null;
+				switch (vrstaNaPotezi) {
+				case C: 
+					poteza = clovekovaPoteza(igra);
+					break;
+				case R:
+					poteza = racunalnikovaPoteza(igra);
+					break;
+				}
+				System.out.println("Igralec " + igralec + " je igral " + poteza);
+				switch (igra.stanje(poteza)) {
 				case ZMAGA_B: 
 					System.out.println("Zmagal je igralec B");
-					System.out.println("Zmagovalna vrsta " + igra.zmagovalnaVrsta().toString());
+					System.out.println("Zmagovalna vrsta " + igra.zmagovalnaVrsta(poteza).toString());
 					break igranje;
 				case ZMAGA_W: 
 					System.out.println("Zmagal je igralec W");
-					System.out.println("Zmagovalna vrsta " + igra.zmagovalnaVrsta().toString());
+					System.out.println("Zmagovalna vrsta " + igra.zmagovalnaVrsta(poteza).toString());
 					break igranje;
 				case NEODLOCENO: 
 					System.out.println("Igra je neodloèena");
 					break igranje;
-				case V_TEKU: 
-					Igralec igralec = igra.naPotezi;
-					VrstaIgralca vrstaNaPotezi = vrstaIgralca.get(igralec);
-					Koordinati poteza = null;
-					switch (vrstaNaPotezi) {
-					case C: 
-						poteza = clovekovaPoteza(igra);
-						break;
-					case R:
-						poteza = racunalnikovaPoteza(igra);
-						break;
-					}
-					System.out.println("Igralec " + igralec + " je igral " + poteza);
+				case V_TEKU: continue igranje;
 				}
 			}
 		}
@@ -82,7 +82,7 @@ public class Vodja {
 	private static Random random = new Random ();
 	
 	public static Koordinati racunalnikovaPoteza(Igra igra) {
-		List<Koordinati> moznePoteze = igra.POTEZE;
+		List<Koordinati> moznePoteze = igra.mozne_poteze;
 		int randomIndex = random.nextInt(moznePoteze.size());
 		Koordinati poteza = moznePoteze.get(randomIndex);
 		igra.odigraj(poteza);

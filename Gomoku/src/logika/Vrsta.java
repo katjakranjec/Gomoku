@@ -13,9 +13,6 @@ public class Vrsta {
 	public Vrsta(int[] x, int[] y) {
 		this.x = x;
 		this.y = y;
-		holder = new LinkedList<LinkedList<Integer>>();
-		holder.add(x);
-		holder.add(y);
 	}
 	
 	public Koordinati[] koordinateVVrsti() {
@@ -30,7 +27,7 @@ public class Vrsta {
 
 	@Override
 	public String toString() {
-		return Arrays.toString(x);
+		return "[" + Arrays.toString(x) + "], [" + Arrays.toString(y) + "]";
 	}
 	
 	@Override

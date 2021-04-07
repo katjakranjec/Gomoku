@@ -10,11 +10,11 @@ import java.util.stream.IntStream;
 public class Igra {
 
 	public static final int PET_V_VRSTO = 5;
-	public int n = 15; // Velikost igralne plošèe je N × N
+	public static int n = 15; // Velikost igralne plošèe je N × N
 	
 	private Polje[][] plosca; // Igralno polje
 	public Igralec naPotezi; // Ime igralca, ki je na potezi
-	public List<Koordinati> POTEZE = new LinkedList<Koordinati>(); // Vse možne poteze
+	public List<Koordinati> mozne_poteze = new LinkedList<Koordinati>(); // Vse možne poteze
 	
 	
 	public Igra() {
@@ -22,7 +22,7 @@ public class Igra {
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < n; j++) {
 				plosca[i][j] = Polje.PRAZNO;
-				POTEZE.add(new Koordinati(i, j));
+				mozne_poteze.add(new Koordinati(i, j));
 			}
 		}
 		naPotezi = Igralec.W;
@@ -39,7 +39,7 @@ public class Igra {
 			for (int k = 0; k < Igra.PET_V_VRSTO; ++k) {
 				if (mejaX + k1 * k >= 0 && mejaX + k1 * k < n && mejaY + k2 * k >= 0 && mejaY + k2 * k < n) {
 					vrsta_x[k] = mejaX + k1 * k;
-					vrsta_y[y] = mejaY + k2 * k;
+					vrsta_y[k] = mejaY + k2 * k;
 				}
 			}
 			if (IntStream.of(vrsta_x).anyMatch(t -> t == n) || IntStream.of(vrsta_y).anyMatch(t -> t == n));
@@ -73,7 +73,7 @@ public class Igra {
 		int count_W = 0;
 		int count_B = 0;
 		for (int k = 0; k < PET_V_VRSTO && (count_W == 0 || count_B == 0); k++) {
-			switch (plosca[t.x.get(k)][t.y.get(k)]) {
+			switch (plosca[t.x[k]][t.y[k]]) {
 			case B: count_B += 1; break;
 			case W: count_W += 1; break;
 			case PRAZNO: break;
@@ -85,8 +85,9 @@ public class Igra {
 	}
 
 
-	public Vrsta zmagovalnaVrsta() {
-		for (Vrsta t : naPotezi.nasprotnik().getVrste()) {
+	public Vrsta zmagovalnaVrsta(Koordinati poteza) {
+		HashSet<Vrsta> vrste = pridobiVrste(poteza);
+		for (Vrsta t : vrste) {
 			Igralec lastnik = cigavaVrsta(t);
 			if (lastnik != null) return t;
 		}
@@ -94,11 +95,11 @@ public class Igra {
 	}
 	
 
-	public Stanje stanje() {
+	public Stanje stanje(Koordinati poteza) {
 		// Ali imamo zmagovalca?
-		Vrsta t = zmagovalnaVrsta();
+		Vrsta t = zmagovalnaVrsta(poteza);
 		if (t != null) {
-			switch (plosca[t.x.getFirst()][t.y.getFirst()]) {
+			switch (plosca[t.x[0]][t.y[0]]) {
 			case B: return Stanje.ZMAGA_B; 
 			case W: return Stanje.ZMAGA_W;
 			case PRAZNO: assert false;
@@ -119,8 +120,7 @@ public class Igra {
 	public boolean odigraj(Koordinati p) {
 		if (plosca[p.getX()][p.getY()] == Polje.PRAZNO) {
 			plosca[p.getX()][p.getY()] = naPotezi.getPolje();
-			POTEZE.remove(p);
-			naPotezi.getVrste(p);
+			mozne_poteze.remove(p);
 			naPotezi = naPotezi.nasprotnik();
 			return true;
 		}
