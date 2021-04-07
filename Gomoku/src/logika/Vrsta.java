@@ -1,16 +1,16 @@
 package logika;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.LinkedList;
 
 public class Vrsta {
 	// Vrsta na plošèi je predstavljena z dvema tabelama dolžine 5.
 	// To sta tabeli x in y koordinat.
-	public LinkedList<Integer> x;
-	public LinkedList<Integer> y;
-	private LinkedList<LinkedList<Integer>> holder;
+	public int[] x;
+	public int[] y;
 	
-	public Vrsta(LinkedList<Integer> x, LinkedList<Integer> y) {
+	public Vrsta(int[] x, int[] y) {
 		this.x = x;
 		this.y = y;
 		holder = new LinkedList<LinkedList<Integer>>();
@@ -18,21 +18,19 @@ public class Vrsta {
 		holder.add(y);
 	}
 	
-	public static LinkedList<Koordinati> koordinateVVrsti(Vrsta a) {
-		LinkedList<Koordinati> koordinate = new LinkedList<Koordinati>();
-		LinkedList<Integer> vrsta_x = a.holder.getFirst();
-		LinkedList<Integer> vrsta_y = a.holder.getLast();
+	public Koordinati[] koordinateVVrsti() {
+		Koordinati[] koordinate = new Koordinati[5];
 		for (int i = 0; i < 5; i++) {
-			int x = vrsta_x.get(i);
-			int y = vrsta_y.get(i);
-			koordinate.add(new Koordinati(x, y));
+			int a = this.x[i];
+			int b = this.y[i];
+			koordinate[i] = (new Koordinati(a, b));
 		}
 		return koordinate;
 	}
 
 	@Override
 	public String toString() {
-		return holder.toString();
+		return Arrays.toString(x);
 	}
 	
 	@Override

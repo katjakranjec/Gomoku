@@ -10,6 +10,7 @@ public enum Igralec {
 	
 	private HashSet<Vrsta> VRSTE = new HashSet<Vrsta>();
 	private LinkedList<Koordinati> ODIGRANE = new LinkedList<Koordinati>();
+	public Igra igra;
 
 	public Igralec nasprotnik() {
 		return (this == W ? B : W);
@@ -55,7 +56,7 @@ public enum Igralec {
 			int mejaX = x + a1 * a;
 			int mejaY = y + a2 * a;
 			for (int k = 0; k < Igra.PET_V_VRSTO; ++k) {
-				if (mejaX + k1 * k >= 0 && mejaX + k1 * k < Igra.n && mejaY + k2 * k >= 0 && mejaY + k2 * k < Igra.n) {
+				if (mejaX + k1 * k >= 0 && mejaX + k1 * k < igra.n && mejaY + k2 * k >= 0 && mejaY + k2 * k < igra.n) {
 					vrsta_x.add(mejaX + k1 * k);
 					vrsta_y.add(mejaY + k2 * k);
 				}

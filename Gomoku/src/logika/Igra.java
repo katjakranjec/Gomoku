@@ -1,9 +1,11 @@
 package logika;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.IntStream;
 
 public class Igra {
 
@@ -26,18 +28,45 @@ public class Igra {
 		naPotezi = Igralec.W;
 	}
 
-	//to funkcijo sem zamenjala s komponento POTEZE
-//	public List<Koordinati> poteze() {
-//		LinkedList<Koordinati> ps = new LinkedList<Koordinati>();
-//		for (int i = 0; i < N; i++) {
-//			for (int j = 0; j < N; j++) {
-//				if (plosca[i][j] == Polje.PRAZNO) {
-//					ps.add(new Koordinati(i, j));
-//				}
-//			}
-//		}
-//		return ps;
-//	}
+	private void vrsteVSmeri(int a1, int a2, int k1, int k2, int x, int y, HashSet<Vrsta> vrste) {
+		for (int a = 0; a < Igra.PET_V_VRSTO; ++a) {
+			int[] vrsta_x = new int[PET_V_VRSTO];
+			int[] vrsta_y = new int[PET_V_VRSTO];
+			Arrays.fill(vrsta_x, n);
+			Arrays.fill(vrsta_y, n);
+			int mejaX = x + a1 * a;
+			int mejaY = y + a2 * a;
+			for (int k = 0; k < Igra.PET_V_VRSTO; ++k) {
+				if (mejaX + k1 * k >= 0 && mejaX + k1 * k < n && mejaY + k2 * k >= 0 && mejaY + k2 * k < n) {
+					vrsta_x[k] = mejaX + k1 * k;
+					vrsta_y[y] = mejaY + k2 * k;
+				}
+			}
+			if (IntStream.of(vrsta_x).anyMatch(t -> t == n) || IntStream.of(vrsta_y).anyMatch(t -> t == n));
+			else vrste.add(new Vrsta(vrsta_x, vrsta_y));
+		}
+	}
+	
+	private HashSet<Vrsta> pridobiVrste(Koordinati q) {
+		int x = q.getX();
+		int y = q.getY();
+		
+		HashSet<Vrsta> vrste = new HashSet<Vrsta>();
+		
+		//SMER S->J
+		vrsteVSmeri(0, -1, 0, 1, x, y, vrste);
+		
+		//SMER SZ -> JV
+		vrsteVSmeri(-1, -1, 1, 1, x, y, vrste);
+		
+		//SMER Z -> V
+		vrsteVSmeri(-1, 0, 1, 0, x, y, vrste);
+		
+		//SMER JZ -> SV
+		vrsteVSmeri(-1, 1, 1, -1, x, y, vrste);
+
+		return vrste;
+	}
 
 	
 	private Igralec cigavaVrsta(Vrsta t) {
