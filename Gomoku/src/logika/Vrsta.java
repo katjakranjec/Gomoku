@@ -17,6 +17,18 @@ public class Vrsta {
 		holder.add(x);
 		holder.add(y);
 	}
+	
+	public static LinkedList<Koordinati> koordinateVVrsti(Vrsta a) {
+		LinkedList<Koordinati> koordinate = new LinkedList<Koordinati>;
+		LinkedList<Integer> vrsta_x = a.holder.getFirst();
+		LinkedList<Integer> vrsta_y = a.holder.getLast();
+		for (int i = 0; i < Igra.PET_V_VRSTO; i++) {
+			int x = vrsta_x.get(i);
+			int y = vrsta_y.get(i);
+			koordinate.add(new Koordinati(x, y));
+		}
+		return koordinate;
+	}
 
 	@Override
 	public String toString() {
