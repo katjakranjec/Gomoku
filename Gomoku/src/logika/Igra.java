@@ -14,10 +14,15 @@ public class Igra {
 	
 	private Polje[][] plosca; // Igralno polje
 	public Igralec naPotezi; // Ime igralca, ki je na potezi
-	public List<Koordinati> mozne_poteze = new LinkedList<Koordinati>(); // Vse možne poteze
+	public List<Koordinati> mozne_poteze; // Vse možne poteze
+	public List<Koordinati> odigranePrvi;
+	public List<Koordinati> odigraneDrugi;
 	
 	
 	public Igra() {
+		this.odigranePrvi = new LinkedList<Koordinati>();
+		this.odigraneDrugi = new LinkedList<Koordinati>();
+		this.mozne_poteze = new LinkedList<Koordinati>();
 		plosca = new Polje[n][n];
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < n; j++) {
@@ -121,6 +126,8 @@ public class Igra {
 		if (plosca[p.getX()][p.getY()] == Polje.PRAZNO) {
 			plosca[p.getX()][p.getY()] = naPotezi.getPolje();
 			mozne_poteze.remove(p);
+			if (naPotezi == Igralec.W) odigranePrvi.add(p);
+			if (naPotezi == Igralec.B) odigraneDrugi.add(p);
 			naPotezi = naPotezi.nasprotnik();
 			return true;
 		}
