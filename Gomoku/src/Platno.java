@@ -21,11 +21,18 @@ public class Platno extends JPanel implements MouseListener {
 	protected Color barvaMreze;
 	protected Color barvaB;
 	protected Color barvaW;
+	protected Color barvaObrobe;
 	protected float debelinaMreze;
+	protected float debelinaObrobe;
 	
 	protected int sirina;
 	protected int visina;
 	protected int polmer;
+	
+	public static final Color MAROON = new Color(128,0,0);
+	public static final Color ANTIQUE_WHITE = new Color(250,235,215);
+
+	
 	
 	
 	public Platno(int sirina, int visina) {
@@ -35,12 +42,15 @@ public class Platno extends JPanel implements MouseListener {
 		
 		
 		this.barvaMreze = Color.BLACK;
-		this.barvaB = Color.MAGENTA;
-		this.barvaW = Color.GREEN;
+		this.barvaB = MAROON;
+		this.barvaW = ANTIQUE_WHITE;
+		this.barvaObrobe = Color.BLACK;
 		this.debelinaMreze = 2;
+		this.debelinaObrobe = 2;
 		
 		this.sirina = sirina;
 		this.visina = visina;
+		
 		this.polmer = 15;
 		
 		addMouseListener(this);
@@ -83,11 +93,21 @@ public class Platno extends JPanel implements MouseListener {
 			g2d.drawLine(visinskiRazmik, j * visinskiRazmik, (vodja.igra.n) * visinskiRazmik, j * visinskiRazmik);
 		}
 		
+		g2d.setStroke(new BasicStroke(this.debelinaObrobe));
+		
 		for (Koordinati zeton: vodja.igra.odigranePrvi) {
 			g2d.setColor(barvaW);
 			int x = zeton.getX() + 1;
 			int y = zeton.getY() + 1;
 			g2d.fillOval(x * sirinskiRazmik - polmer, y * sirinskiRazmik - polmer, polmer * 2, polmer * 2);
+			
+		}
+		
+		for (Koordinati zeton: vodja.igra.odigranePrvi) {
+			g2d.setColor(barvaObrobe);
+			int x = zeton.getX() + 1;
+			int y = zeton.getY() + 1;
+			g2d.drawOval(x * sirinskiRazmik - polmer, y * sirinskiRazmik - polmer, polmer * 2, polmer * 2);
 			
 		}
 		
@@ -99,6 +119,13 @@ public class Platno extends JPanel implements MouseListener {
 			
 		}
 		
+		for (Koordinati zeton: vodja.igra.odigraneDrugi) {
+			g2d.setColor(barvaObrobe);
+			int x = zeton.getX() + 1;
+			int y = zeton.getY() + 1;
+			g2d.drawOval(x * sirinskiRazmik - polmer, y * sirinskiRazmik - polmer, polmer * 2, polmer * 2);
+			
+		}
 		
 		repaint();
 	
@@ -108,21 +135,32 @@ public class Platno extends JPanel implements MouseListener {
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (vodja == null) return;
-		int klikX = e.getX();
-		int klikY = e.getY();
+		double klikX = e.getX();
+		double klikY = e.getY();
 		
-		double x = klikX / (round(sirina / (vodja.igra.n + 2)));
-		double y = klikY / (round(sirina / (vodja.igra.n + 2)));
+		double x = (klikX / (sirina / (vodja.igra.n + 2)));
+		double y = (klikY / (visina / (vodja.igra.n + 2)));
 		
-		int koordinata_x = round(x);
-		int koordinata_y = round(y);
+		int zaokrozen_x = round(x);
+		int zaokrozen_y = round(y);
 		
-		if (x - koordinata_x > 0.25 && x - koordinata_x < -0.25) return;
-		if (y - koordinata_y > 0.25 && y - koordinata_y < -0.25) return;
 		
-		if (koordinata_x > vodja.igra.n || koordinata_y > vodja.igra.n) return;
+		if (zaokrozen_x - x > 0.25 || zaokrozen_x - x < -0.25) return;
+		if (y - zaokrozen_y > 0.25 || y - zaokrozen_y < -0.25) return;
+		
+		int koordinata_x = zaokrozen_x - 1;
+		int koordinata_y = zaokrozen_y - 1;
+		
+		if (koordinata_x >= vodja.igra.n || koordinata_y >= vodja.igra.n) return;
 		
 		Koordinati krizisce = new Koordinati(koordinata_x, koordinata_y);
+		//System.out.println(klikX);
+		//System.out.println(klikY);
+		//System.out.println(x);
+		//System.out.println(y);
+		//System.out.println(koordinata_x);
+		//System.out.println(koordinata_y);
+		System.out.println(krizisce);
 		vodja.igra.odigraj(krizisce);
 		repaint();
 		
