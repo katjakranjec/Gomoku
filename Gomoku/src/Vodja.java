@@ -19,7 +19,13 @@ public class Vodja {
 	
 	private static Map<Igralec,VrstaIgralca> vrstaIgralca;
 	
-	public static void igramo () throws IOException {
+	public Igra igra;
+	
+	public Vodja() {
+		this.igra = new Igra();
+	}
+	
+	public void igramo () throws IOException {
 		while (true) {
 			System.out.println("Nova igra. Prosim, da izberete:");
 			System.out.println(" 1 - B èlovek, W raèunalnik");
@@ -47,7 +53,7 @@ public class Vodja {
 				continue;
 			}
 			// Èe je s == "1", "2" ali "3"
-			Igra igra = new Igra ();
+			//Igra igra = new Igra ();
 			igranje : while (true) {
 				Igralec igralec = igra.naPotezi;
 				VrstaIgralca vrstaNaPotezi = vrstaIgralca.get(igralec);
@@ -107,7 +113,7 @@ public class Vodja {
 			} catch (NumberFormatException e) {
 				System.out.println("Napaèen format"); continue; 
 			}
-			if (x < 0 || x >= Igra.n || y < 0 || y >= Igra.n){
+			if (x < 0 || x >= igra.n || y < 0 || y >= igra.n){
 				System.out.println("Napaèen format"); continue; 			
 			}
 			Koordinati poteza = new Koordinati(x,y);
