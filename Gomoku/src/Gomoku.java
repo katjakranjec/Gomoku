@@ -1,8 +1,6 @@
 
 import java.io.IOException;
 
-import logika.Okno;
-
 public class Gomoku {
 	
 	public static void main(String[] args) throws IOException {
@@ -12,7 +10,7 @@ public class Gomoku {
 		Okno okno = new Okno();
 		okno.pack();
 		okno.setVisible(true);
-		okno.platno.nastaviIgro(vodja.igra);
+		okno.platno.nastaviIgro(vodja);
 		
 		vodja.igramo();
 		}

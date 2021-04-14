@@ -1,4 +1,4 @@
-package logika;
+
 
 import javax.swing.JFrame;
 
@@ -10,7 +10,7 @@ public class Okno extends JFrame {
 	public Okno() {
 		super();
 		setTitle("Gomoku");
-		platno = new Platno(400, 400);
+		platno = new Platno(700, 700);
 		add(platno);
 	}
 	
