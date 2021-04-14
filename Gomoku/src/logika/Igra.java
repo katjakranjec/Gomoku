@@ -10,7 +10,7 @@ import java.util.stream.IntStream;
 public class Igra {
 
 	public static final int PET_V_VRSTO = 5;
-	public static int n = 15; // Velikost igralne plošèe je N × N
+	public int n = 15; // Velikost igralne plošèe je N × N
 	
 	private Polje[][] plosca; // Igralno polje
 	public Igralec naPotezi; // Ime igralca, ki je na potezi
