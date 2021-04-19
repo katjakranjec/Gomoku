@@ -10,7 +10,7 @@ import java.util.stream.IntStream;
 public class Igra {
 
 	public static final int PET_V_VRSTO = 5;
-	public int n = 15; // Velikost igralne plošèe je N × N
+	public static int n = 15; // Velikost igralne plošèe je N × N
 	
 	private Polje[][] plosca; // Igralno polje
 	public Igralec naPotezi; // Ime igralca, ki je na potezi
@@ -92,6 +92,7 @@ public class Igra {
 
 	public Vrsta zmagovalnaVrsta(Koordinati poteza) {
 		HashSet<Vrsta> vrste = pridobiVrste(poteza);
+		System.out.println(vrste);
 		for (Vrsta t : vrste) {
 			Igralec lastnik = cigavaVrsta(t);
 			if (lastnik != null) return t;
@@ -101,24 +102,27 @@ public class Igra {
 	
 
 	public Stanje stanje(Koordinati poteza) {
-		// Ali imamo zmagovalca?
-		Vrsta t = zmagovalnaVrsta(poteza);
-		if (t != null) {
-			switch (plosca[t.x[0]][t.y[0]]) {
-			case B: return Stanje.ZMAGA_B; 
-			case W: return Stanje.ZMAGA_W;
-			case PRAZNO: assert false;
+		if (poteza == null) return Stanje.V_TEKU;
+		else {
+			// Ali imamo zmagovalca?
+			Vrsta t = zmagovalnaVrsta(poteza);
+			if (t != null) {
+				switch (plosca[t.x[0]][t.y[0]]) {
+				case B: return Stanje.ZMAGA_B; 
+				case W: return Stanje.ZMAGA_W;
+				case PRAZNO: assert false;
+				}
 			}
-		}
-		// Ali imamo kakšno prazno polje?
-		// Èe ga imamo, igre ni konec in je nekdo na potezi
-		for (int i = 0; i < n; i++) {
-			for (int j = 0; j < n; j++) {
-				if (plosca[i][j] == Polje.PRAZNO) return Stanje.V_TEKU;
+			// Ali imamo kakšno prazno polje?
+			// Èe ga imamo, igre ni konec in je nekdo na potezi
+			for (int i = 0; i < n; i++) {
+				for (int j = 0; j < n; j++) {
+					if (plosca[i][j] == Polje.PRAZNO) return Stanje.V_TEKU;
+				}
 			}
+			// Polje je polno, rezultat je neodloèen
+			return Stanje.NEODLOCENO;
 		}
-		// Polje je polno, rezultat je neodloèen
-		return Stanje.NEODLOCENO;
 	}
 
 
