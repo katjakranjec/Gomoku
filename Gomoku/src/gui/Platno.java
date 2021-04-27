@@ -25,6 +25,7 @@ public class Platno extends JPanel implements MouseListener {
 	private final static Color BARVA_B = new Color(128,0,0);
 	private final static Color BARVA_MREZE = Color.BLACK;
 	private final static Color BARVA_OBROBE = Color.BLACK;
+	private final static Color ZMAGA = Color.YELLOW;
 
 	private final static double DEBELINA_MREZE = 0.08;
 	private final static double DEBELINA_OBROBE = 0.065;
@@ -87,8 +88,7 @@ public class Platno extends JPanel implements MouseListener {
 				if (zmagovalec == Igralec.W) {
 					Koordinati[] koordinate = zmagovalnaVrsta.koordinateVVrsti();
 					if (Arrays.asList(koordinate).contains(zeton)) {
-						g2d.setColor(Color.YELLOW);
-						g2d.fillOval((int)(x * w - polmer), (int) (y * w - polmer), (int) (polmer * 2), (int) (polmer * 2));
+						g2d.setColor(ZMAGA);
 					}
 				}
 				g2d.fillOval((int)(x * w - polmer), (int) (y * w - polmer), (int) (polmer * 2), (int) (polmer * 2));
@@ -109,8 +109,7 @@ public class Platno extends JPanel implements MouseListener {
 				if (zmagovalec == Igralec.B) {
 					Koordinati[] koordinate = zmagovalnaVrsta.koordinateVVrsti();
 					if (Arrays.asList(koordinate).contains(zeton)) {
-						g2d.setColor(Color.YELLOW);
-						g2d.fillOval((int)(x * w - polmer), (int) (y * w - polmer), (int) (polmer * 2), (int) (polmer * 2));
+						g2d.setColor(ZMAGA);
 					}
 				}
 				g2d.fillOval((int) (x * w - polmer), (int) (y * w - polmer), (int) (polmer * 2), (int) (polmer * 2));			
