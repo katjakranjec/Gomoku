@@ -16,7 +16,7 @@ import javax.swing.JMenuItem;
 
 import logika.Igralec;
 import vodja.Vodja;
-import vodja.Vodja.VrstaIgralca;
+import vodja.VrstaIgralca;
 
 @SuppressWarnings("serial")
 public class Okno extends JFrame implements ActionListener{
@@ -25,7 +25,7 @@ public class Okno extends JFrame implements ActionListener{
 	
 	private JLabel status;
 	
-	// Izbire v menujih
+//	 Izbire v menujih
 	private JMenuItem igraClovekRacunalnik;
 	private JMenuItem igraRacunalnikClovek;
 	private JMenuItem igraClovekClovek;
@@ -93,7 +93,6 @@ public class Okno extends JFrame implements ActionListener{
 			Vodja.vrstaIgralca = new EnumMap<Igralec,VrstaIgralca>(Igralec.class);
 			Vodja.vrstaIgralca.put(Igralec.B, VrstaIgralca.C); 
 			Vodja.vrstaIgralca.put(Igralec.W, VrstaIgralca.R);
-			System.out.print("1");
 			Vodja.igramoNovoIgro();
 		} else if (e.getSource() == igraRacunalnikClovek) {
 			Vodja.vrstaIgralca = new EnumMap<Igralec,VrstaIgralca>(Igralec.class);
@@ -119,7 +118,10 @@ public class Okno extends JFrame implements ActionListener{
 		}
 		else {
 			switch(Vodja.igra.stanje(Vodja.poteza)) {
-			case NEODLOCENO: status.setText("Neodloƒçeno!"); break;
+			case NEODLOCENO: status.setText("NeodloËeno!"); 
+				Vodja.igra = null;
+				Vodja.poteza = null;
+				break;
 			case V_TEKU: 
 				status.setText("Na potezi je " + Vodja.igra.naPotezi + 
 						" - " + Vodja.vrstaIgralca.get(Vodja.igra.naPotezi)); 

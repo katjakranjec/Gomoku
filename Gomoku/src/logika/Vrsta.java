@@ -1,8 +1,8 @@
 package logika;
 
-import java.io.IOException;
 import java.util.Arrays;
-import java.util.LinkedList;
+
+import splosno.Koordinati;
 
 public class Vrsta {
 	// Vrsta na plošèi je predstavljena z dvema tabelama dolžine 5.

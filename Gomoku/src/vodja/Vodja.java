@@ -1,26 +1,18 @@
 package vodja;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.IOException;
-
 import java.util.Random;
 
 import gui.Okno;
 
 import java.util.Map;
-import java.util.EnumMap;
 import java.util.List;
 
 import logika.Igra;
 import logika.Igralec;
-import logika.Koordinati;
-import logika.Stanje;
+import splosno.Koordinati;
 
 public class Vodja {
 	
-	public static enum VrstaIgralca { R, C; }
-
 	public static Map<Igralec,VrstaIgralca> vrstaIgralca;
 	
 	public static Okno okno;
@@ -34,11 +26,14 @@ public class Vodja {
 	
 	public static void igramoNovoIgro () {
 		igra = new Igra ();
+		poteza = null;
 		igramo();
 	}
 	
 	public static void igramo () {
 		okno.osveziGUI();
+		if (igra == null) return;
+		System.out.println(poteza);
 		switch (igra.stanje(poteza)) {
 		case ZMAGA_W: 
 		case ZMAGA_B: 
@@ -52,109 +47,28 @@ public class Vodja {
 				clovekNaVrsti = true;
 				break;
 			case R:
-				igrajRacunalnikovoPotezo(igra);
+				igrajRacunalnikovoPotezo();
 				break;
 			}
 		}
 	}
-//	public static void igramo () throws IOException {
-//		while (true) {
-//			System.out.println("Nova igra. Prosim, da izberete:");
-//			System.out.println(" 1 - B èlovek, W raèunalnik");
-//			System.out.println(" 2 - B raèunalnik, W èlovek");
-//			System.out.println(" 3 - B èlovek, W èlovek");
-//			System.out.println(" 4 - izhod");
-//			String s = r.readLine();
-//			if (s.equals("1")) {
-//				vrstaIgralca = new EnumMap<Igralec,VrstaIgralca>(Igralec.class);
-//				vrstaIgralca.put(Igralec.B, VrstaIgralca.C); 
-//				vrstaIgralca.put(Igralec.W, VrstaIgralca.R); 			
-//			} else if (s.equals("2")) {
-//				vrstaIgralca = new EnumMap<Igralec,VrstaIgralca>(Igralec.class);
-//				vrstaIgralca.put(Igralec.B, VrstaIgralca.R); 
-//				vrstaIgralca.put(Igralec.W, VrstaIgralca.C); 			
-//			} else if (s.equals("3")) {
-//				vrstaIgralca = new EnumMap<Igralec,VrstaIgralca>(Igralec.class);
-//				vrstaIgralca.put(Igralec.B, VrstaIgralca.C); 
-//				vrstaIgralca.put(Igralec.W, VrstaIgralca.C); 			
-//			} else if (s.equals("4")) {
-//				System.out.println("Nasvidenje!");
-//				break;
-//			} else {
-//				System.out.println("Vnos ni veljaven");
-//				continue;
-//			}
-			// Èe je s == "1", "2" ali "3"
-			//Igra igra = new Igra ();
-//			igranje : while (true) {
-//				Igralec igralec = igra.naPotezi;
-//				VrstaIgralca vrstaNaPotezi = vrstaIgralca.get(igralec);
-//				Koordinati poteza = null;
-//				switch (vrstaNaPotezi) {
-//				case C: 
-//					poteza = clovekovaPoteza(igra);
-//					break;
-//				case R:
-//					poteza = racunalnikovaPoteza(igra);
-//					break;
-//				}
-//				System.out.println("Igralec " + igralec + " je igral " + poteza);
-//				switch (igra.stanje(poteza)) {
-//				case ZMAGA_B: 
-//					System.out.println("Zmagal je igralec B");
-//					System.out.println("Zmagovalna vrsta " + igra.zmagovalnaVrsta(poteza).toString());
-//					break igranje;
-//				case ZMAGA_W: 
-//					System.out.println("Zmagal je igralec W");
-//					System.out.println("Zmagovalna vrsta " + igra.zmagovalnaVrsta(poteza).toString());
-//					break igranje;
-//				case NEODLOCENO: 
-//					System.out.println("Igra je neodloèena");
-//					break igranje;
-//				case V_TEKU: continue igranje;
-//				}
-//			}
-//		}
-//	}
+
 	
 	private static Random random = new Random ();
 	
-	public static Koordinati igrajRacunalnikovoPotezo(Igra igra) {
-		List<Koordinati> moznePoteze = igra.mozne_poteze;
+	public static void igrajRacunalnikovoPotezo() {
+		List<Koordinati> moznePoteze = igra.moznePoteze;
 		int randomIndex = random.nextInt(moznePoteze.size());
-		Koordinati poteza = moznePoteze.get(randomIndex);
-		igra.odigraj(poteza);
-		return poteza;		
+		Koordinati k = moznePoteze.get(randomIndex);
+		igra.odigraj(k);
+		poteza = k;
+		igramo ();
 	}
 	
-	public static void igrajClovekovaPoteza(Koordinati poteza){
-		if (igra.odigraj(poteza)) clovekNaVrsti = false;
+	public static void igrajClovekovaPoteza(Koordinati k){
+		if (igra.odigraj(k)) clovekNaVrsti = false;
+		poteza = k;
 		igramo ();
 	} 
-//		while (true) {
-//			System.out.println("Igralec " + igra.naPotezi.toString() +
-//					" vnesite potezo \"x y\"");
-//			String s = r.readLine();
-//			int i = s.indexOf (' '); // kje je presledek
-//			if (i == -1 || i  == s.length()) { 
-//				System.out.println("Napaèen format"); continue; 
-//			}
-//			String xString = s.substring(0,i);
-//			String yString = s.substring(i+1);
-//			int x, y;
-//			try {
-//				x = Integer.parseInt(xString);
-//				y = Integer.parseInt(yString);		
-//			} catch (NumberFormatException e) {
-//				System.out.println("Napaèen format"); continue; 
-//			}
-//			if (x < 0 || x >= igra.n || y < 0 || y >= igra.n){
-//				System.out.println("Napaèen format"); continue; 			
-//			}
-//			Koordinati poteza = new Koordinati(x,y);
-//			if (igra.odigraj(poteza)) return poteza;
-//			System.out.println(poteza.toString() + " ni možna");
-//		}
-//	}
 
 }

@@ -4,8 +4,9 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.IntStream;
+
+import splosno.Koordinati;
 
 public class Igra {
 
@@ -14,23 +15,23 @@ public class Igra {
 	
 	private Polje[][] plosca; // Igralno polje
 	public Igralec naPotezi; // Ime igralca, ki je na potezi
-	public List<Koordinati> mozne_poteze; // Vse možne poteze
-	public List<Koordinati> odigranePrvi;
-	public List<Koordinati> odigraneDrugi;
+	public List<Koordinati> moznePoteze; // Vse možne poteze
+	public List<Koordinati> odigraneWhite;
+	public List<Koordinati> odigraneBlack;
 	
 	
 	public Igra() {
-		this.odigranePrvi = new LinkedList<Koordinati>();
-		this.odigraneDrugi = new LinkedList<Koordinati>();
-		this.mozne_poteze = new LinkedList<Koordinati>();
+		this.odigraneWhite = new LinkedList<Koordinati>();
+		this.odigraneBlack = new LinkedList<Koordinati>();
+		this.moznePoteze = new LinkedList<Koordinati>();
 		plosca = new Polje[n][n];
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < n; j++) {
 				plosca[i][j] = Polje.PRAZNO;
-				mozne_poteze.add(new Koordinati(i, j));
+				moznePoteze.add(new Koordinati(i, j));
 			}
 		}
-		naPotezi = Igralec.W;
+		naPotezi = Igralec.B;
 	}
 
 	private void vrsteVSmeri(int a1, int a2, int k1, int k2, int x, int y, HashSet<Vrsta> vrste) {
@@ -58,23 +59,23 @@ public class Igra {
 		
 		HashSet<Vrsta> vrste = new HashSet<Vrsta>();
 		
-		//SMER S->J
+		//SMER S <-> J
 		vrsteVSmeri(0, -1, 0, 1, x, y, vrste);
 		
-		//SMER SZ -> JV
+		//SMER SZ <-> JV
 		vrsteVSmeri(-1, -1, 1, 1, x, y, vrste);
 		
-		//SMER Z -> V
+		//SMER Z <-> V
 		vrsteVSmeri(-1, 0, 1, 0, x, y, vrste);
 		
-		//SMER JZ -> SV
+		//SMER JZ <-> SV
 		vrsteVSmeri(-1, 1, 1, -1, x, y, vrste);
 
 		return vrste;
 	}
 
 	
-	private Igralec cigavaVrsta(Vrsta t) {
+	public Igralec cigavaVrsta(Vrsta t) {
 		int count_W = 0;
 		int count_B = 0;
 		for (int k = 0; k < PET_V_VRSTO && (count_W == 0 || count_B == 0); k++) {
@@ -86,13 +87,12 @@ public class Igra {
 		}
 		if (count_B == PET_V_VRSTO) { return Igralec.B; }
 		else if (count_W == PET_V_VRSTO) { return Igralec.W; }
-		else { return null; }
+		else return null;
 	}
 
 
 	public Vrsta zmagovalnaVrsta(Koordinati poteza) {
 		HashSet<Vrsta> vrste = pridobiVrste(poteza);
-		System.out.println(vrste);
 		for (Vrsta t : vrste) {
 			Igralec lastnik = cigavaVrsta(t);
 			if (lastnik != null) return t;
@@ -127,11 +127,11 @@ public class Igra {
 
 
 	public boolean odigraj(Koordinati p) {
-		if (plosca[p.getX()][p.getY()] == Polje.PRAZNO) {
+		if (moznePoteze.contains(p)) {
 			plosca[p.getX()][p.getY()] = naPotezi.getPolje();
-			mozne_poteze.remove(p);
-			if (naPotezi == Igralec.W) odigranePrvi.add(p);
-			if (naPotezi == Igralec.B) odigraneDrugi.add(p);
+			moznePoteze.remove(p);
+			if (naPotezi == Igralec.W) odigraneWhite.add(p);
+			if (naPotezi == Igralec.B) odigraneBlack.add(p);
 			naPotezi = naPotezi.nasprotnik();
 			return true;
 		}
