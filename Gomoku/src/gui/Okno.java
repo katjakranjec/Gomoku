@@ -84,11 +84,11 @@ public class Okno extends JFrame implements ActionListener{
 		velikostIgre.addActionListener(this);
 		
 //		izbire vrst iger
-		igraClovekRacunalnik = new JMenuItem("Èlovek - Raèunalnik");
+		igraClovekRacunalnik = new JMenuItem("Raèunalnik - Èlovek");
 		igra_menu.add(igraClovekRacunalnik);
 		igraClovekRacunalnik.addActionListener(this);
 		
-		igraRacunalnikClovek = new JMenuItem("Raèunalnik - Èlovek");
+		igraRacunalnikClovek = new JMenuItem("Èlovek - Raèunalnik ");
 		igra_menu.add(igraRacunalnikClovek);
 		igraRacunalnikClovek.addActionListener(this);
 		
@@ -179,47 +179,101 @@ public class Okno extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == igraClovekRacunalnik) {
-			Vodja.vrstaIgralca = new EnumMap<Igralec,VrstaIgralca>(Igralec.class);
-			Vodja.vrstaIgralca.put(Igralec.B, VrstaIgralca.C); 
-			Vodja.vrstaIgralca.put(Igralec.W, VrstaIgralca.R);
-			Vodja.igramoNovoIgro();
-			platno.zmagovalec = null;
+			int novaIgra = 0;
+			if (Vodja.igra != null) {
+				int optionPane = JOptionPane.showConfirmDialog(null,
+					    "Ali res želite zakljuèiti s trenutno igro?",
+					    "Potrditev",
+					    JOptionPane.YES_NO_OPTION,
+					    JOptionPane.WARNING_MESSAGE);
+				if (optionPane != JOptionPane.YES_OPTION) novaIgra = 1;
+			}
+			if (novaIgra == 0) {
+				Vodja.vrstaIgralca = new EnumMap<Igralec,VrstaIgralca>(Igralec.class);
+				Vodja.vrstaIgralca.put(Igralec.B, VrstaIgralca.C); 
+				Vodja.vrstaIgralca.put(Igralec.W, VrstaIgralca.R);
+				Vodja.igramoNovoIgro();
+				platno.zmagovalec = null;	
+			}
 		} else if (e.getSource() == igraRacunalnikClovek) {
-			Vodja.vrstaIgralca = new EnumMap<Igralec,VrstaIgralca>(Igralec.class);
-			Vodja.vrstaIgralca.put(Igralec.B, VrstaIgralca.R); 
-			Vodja.vrstaIgralca.put(Igralec.W, VrstaIgralca.C);
-			Vodja.igramoNovoIgro();
-			platno.zmagovalec = null;
+			int novaIgra = 0;
+			if (Vodja.igra != null) {
+				int optionPane = JOptionPane.showConfirmDialog(null,
+					    "Ali res želite zakljuèiti s trenutno igro?",
+					    "Potrditev",
+					    JOptionPane.YES_NO_OPTION,
+					    JOptionPane.WARNING_MESSAGE);
+				if (optionPane != JOptionPane.YES_OPTION) novaIgra = 1;
+			}
+			if (novaIgra == 0) {
+				Vodja.vrstaIgralca = new EnumMap<Igralec,VrstaIgralca>(Igralec.class);
+				Vodja.vrstaIgralca.put(Igralec.B, VrstaIgralca.R); 
+				Vodja.vrstaIgralca.put(Igralec.W, VrstaIgralca.C);
+				Vodja.igramoNovoIgro();
+				platno.zmagovalec = null;
+			}
 		} else if (e.getSource() == igraClovekClovek) {
-			Vodja.vrstaIgralca = new EnumMap<Igralec,VrstaIgralca>(Igralec.class);
-			Vodja.vrstaIgralca.put(Igralec.W, VrstaIgralca.C); 
-			Vodja.vrstaIgralca.put(Igralec.B, VrstaIgralca.C);
-			Vodja.igramoNovoIgro();
-			platno.zmagovalec = null;
+			int novaIgra = 0;
+			if (Vodja.igra != null) {
+				int optionPane = JOptionPane.showConfirmDialog(null,
+					    "Ali res želite zakljuèiti s trenutno igro?",
+					    "Potrditev",
+					    JOptionPane.YES_NO_OPTION,
+					    JOptionPane.WARNING_MESSAGE);
+				if (optionPane != JOptionPane.YES_OPTION) novaIgra = 1;
+			}
+			if (novaIgra == 0) {
+				Vodja.vrstaIgralca = new EnumMap<Igralec,VrstaIgralca>(Igralec.class);
+				Vodja.vrstaIgralca.put(Igralec.W, VrstaIgralca.C); 
+				Vodja.vrstaIgralca.put(Igralec.B, VrstaIgralca.C);
+				Vodja.igramoNovoIgro();
+				platno.zmagovalec = null;
+			}
 		} else if (e.getSource() == igraRacunalnikRacunalnik) {
-			Vodja.vrstaIgralca = new EnumMap<Igralec,VrstaIgralca>(Igralec.class);
-			Vodja.vrstaIgralca.put(Igralec.B, VrstaIgralca.R); 
-			Vodja.vrstaIgralca.put(Igralec.W, VrstaIgralca.R);
-			Vodja.igramoNovoIgro();
-			platno.zmagovalec = null;
+			int novaIgra = 0;
+			if (Vodja.igra != null) {
+				int optionPane = JOptionPane.showConfirmDialog(null,
+					    "Ali res želite zakljuèiti s trenutno igro?",
+					    "Potrditev",
+					    JOptionPane.YES_NO_OPTION,
+					    JOptionPane.WARNING_MESSAGE);
+				if (optionPane != JOptionPane.YES_OPTION) novaIgra = 1;
+			}
+			if (novaIgra == 0) {
+				Vodja.vrstaIgralca = new EnumMap<Igralec,VrstaIgralca>(Igralec.class);
+				Vodja.vrstaIgralca.put(Igralec.B, VrstaIgralca.R); 
+				Vodja.vrstaIgralca.put(Igralec.W, VrstaIgralca.R);
+				Vodja.igramoNovoIgro();
+				platno.zmagovalec = null;
+			}
 		} else if (e.getSource() == velikostIgre) {
-			if (platno.zmagovalec != null || (Vodja.igra == null)) {
-				int velikost = 0;
-				try {
-					velikost = Integer.parseInt(JOptionPane.showInputDialog("Vnesite želeno velikost polja:"));
-					if (velikost < 5 || velikost > 20) {
-						status.setText("Velikost polja mora biti veèja od 5 in manjša od 20.");
-						velikost = 0;
-					}
-				} catch (NumberFormatException e1) {
-					status.setText("Èe želite doloèiti velikost igralnega polja vnesite številko (Nova igra > Velikost igralnega polja)");
+			int velikost = 0;
+			try {
+				velikost = Integer.parseInt(JOptionPane.showInputDialog("Vnesite želeno velikost polja:"));
+				if (velikost < 5 || velikost > 20) {
+					status.setText("Velikost polja mora biti veèja od 5 in manjša od 20.");
+					velikost = 0;
 				}
-				if (velikost != 0) {
+			} catch (NumberFormatException e1) {
+				status.setText("Èe želite doloèiti velikost igralnega polja vnesite številko (Nova igra > Velikost igralnega polja)");
+			}
+			
+			if (velikost != 0) {
+				int novaIgra = 0;
+				if (Vodja.igra != null) {
+					int optionPane = JOptionPane.showConfirmDialog(null,
+						    "Ali res želite zakljuèiti s trenutno igro?",
+						    "Potrditev",
+						    JOptionPane.YES_NO_OPTION,
+						    JOptionPane.WARNING_MESSAGE);
+					if (optionPane != JOptionPane.YES_OPTION) novaIgra = 1;
+				}
+				if (novaIgra == 0) {
 					Vodja.igra.n = velikost;
-					Vodja.igra = null;					
+					Vodja.igra = null;
+					Vodja.clovekNaVrsti = false;
+					status.setText("Izberite igro!");
 				}
-			} else {
-				status.setText("Spreminjanje velikosti polja med igro ni možno.");
 			}
 		} else if (e.getSource() == barvaOdzadja) {
 			Color barvaOdzadja = JColorChooser.showDialog(this, "Izberite barvo", platno.ODZADJE);
