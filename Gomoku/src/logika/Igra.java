@@ -11,18 +11,21 @@ import splosno.Koordinati;
 public class Igra {
 
 	public static final int PET_V_VRSTO = 5;
-	public static int n = 15; // Velikost igralne plošèe je N × N
+	public static int n = 0; // Velikost igralne plošèe je N × N
 	
 	private Polje[][] plosca; // Igralno polje
 	public Igralec naPotezi; // Ime igralca, ki je na potezi
 	public List<Koordinati> moznePoteze; // Vse možne poteze
-	public List<Koordinati> odigraneWhite;
-	public List<Koordinati> odigraneBlack;
+	public List<Koordinati> odigraneW;
+	public List<Koordinati> odigraneB;
 	
 	
 	public Igra() {
-		this.odigraneWhite = new LinkedList<Koordinati>();
-		this.odigraneBlack = new LinkedList<Koordinati>();
+		if (n == 0) {
+			n = 15;
+		}
+		this.odigraneW = new LinkedList<Koordinati>();
+		this.odigraneB = new LinkedList<Koordinati>();
 		this.moznePoteze = new LinkedList<Koordinati>();
 		plosca = new Polje[n][n];
 		for (int i = 0; i < n; i++) {
@@ -31,7 +34,7 @@ public class Igra {
 				moznePoteze.add(new Koordinati(i, j));
 			}
 		}
-		naPotezi = Igralec.B;
+		naPotezi = Igralec.W;
 	}
 
 	private void vrsteVSmeri(int a1, int a2, int k1, int k2, int x, int y, HashSet<Vrsta> vrste) {
@@ -130,13 +133,28 @@ public class Igra {
 		if (moznePoteze.contains(p)) {
 			plosca[p.getX()][p.getY()] = naPotezi.getPolje();
 			moznePoteze.remove(p);
-			if (naPotezi == Igralec.W) odigraneWhite.add(p);
-			if (naPotezi == Igralec.B) odigraneBlack.add(p);
+			if (naPotezi == Igralec.W) odigraneW.add(p);
+			if (naPotezi == Igralec.B) odigraneB.add(p);
 			naPotezi = naPotezi.nasprotnik();
 			return true;
 		}
 		else {
 			return false;
 		}
+	}
+
+	public Koordinati razveljavi() {
+		Koordinati poteza = null;
+		if (naPotezi.nasprotnik() == Igralec.W && odigraneW.size() != 0) {
+			poteza = odigraneW.remove(odigraneW.size() - 1);
+			moznePoteze.add(poteza);
+			plosca[poteza.getX()][poteza.getY()] = Polje.PRAZNO;
+		} else if (odigraneB.size() != 0){
+			poteza = odigraneB.remove(odigraneB.size() - 1);
+			moznePoteze.add(poteza);
+			plosca[poteza.getX()][poteza.getY()] = Polje.PRAZNO;
+		}
+		naPotezi = naPotezi.nasprotnik();
+		return poteza;
 	}
 }

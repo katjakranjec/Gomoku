@@ -23,7 +23,8 @@ public class Vodja {
 	
 	public static Koordinati poteza = null;
 	
-	
+	public static int velikost;
+
 	public static void igramoNovoIgro () {
 		igra = new Igra ();
 		poteza = null;
@@ -33,11 +34,10 @@ public class Vodja {
 	public static void igramo () {
 		okno.osveziGUI();
 		if (igra == null) return;
-		System.out.println(poteza);
 		switch (igra.stanje(poteza)) {
-		case ZMAGA_W: 
+		case ZMAGA_W:
 		case ZMAGA_B: 
-		case NEODLOCENO: 
+		case NEODLOCENO:
 			return; // odhajamo iz metode igramo
 		case V_TEKU: 
 			Igralec igralec = igra.naPotezi;
@@ -52,7 +52,6 @@ public class Vodja {
 			}
 		}
 	}
-
 	
 	private static Random random = new Random ();
 	

@@ -20,17 +20,17 @@ import vodja.Vodja;
 @SuppressWarnings("serial")
 public class Platno extends JPanel implements MouseListener {
 	
-	private final static Color ODZADJE = new Color(222,184,135);
-	private final static Color BARVA_W = new Color(250,235,215);
-	private final static Color BARVA_B = new Color(128,0,0);
-	private final static Color BARVA_MREZE = Color.BLACK;
+	public Color ODZADJE = new Color(222,184,135);
+	public Color BARVA_W = new Color(250,235,215);
+	public Color BARVA_B = new Color(128,0,0);
+	public Color BARVA_MREZE = Color.BLACK;
 	private final static Color BARVA_OBROBE = Color.BLACK;
 	private final static Color ZMAGA = Color.YELLOW;
 
 	private final static double DEBELINA_MREZE = 0.08;
 	private final static double DEBELINA_OBROBE = 0.065;
 	
-	private Igralec zmagovalec;
+	public Igralec zmagovalec = null;
 	private Vrsta zmagovalnaVrsta;
 
 	public Platno() {
@@ -56,7 +56,7 @@ public class Platno extends JPanel implements MouseListener {
 		double polmer = w / 2.3;
 		
 //		zmagovalec
-		if (Vodja.poteza != null) {
+		if (Vodja.poteza != null && Vodja.igra != null) {
 			zmagovalnaVrsta = Vodja.igra.zmagovalnaVrsta(Vodja.poteza);
 			if (zmagovalnaVrsta != null) {
 				zmagovalec = Vodja.igra.cigavaVrsta(zmagovalnaVrsta);
@@ -81,7 +81,7 @@ public class Platno extends JPanel implements MouseListener {
 //			žetoni
 			g2d.setStroke(new BasicStroke((float)(w * DEBELINA_OBROBE)));
 			
-			for (Koordinati zeton: Vodja.igra.odigraneWhite) {
+			for (Koordinati zeton: Vodja.igra.odigraneW) {
 				g2d.setColor(BARVA_W);
 				int x = zeton.getX() + 1;
 				int y = zeton.getY() + 1;
@@ -94,15 +94,14 @@ public class Platno extends JPanel implements MouseListener {
 				g2d.fillOval((int)(x * w - polmer), (int) (y * w - polmer), (int) (polmer * 2), (int) (polmer * 2));
 			}	
 			
-			
-			for (Koordinati zeton: Vodja.igra.odigraneWhite) {
+			for (Koordinati zeton: Vodja.igra.odigraneW) {
 				g2d.setColor(BARVA_OBROBE);
 				int x = zeton.getX() + 1;
 				int y = zeton.getY() + 1;
 				g2d.drawOval((int) (x * w - polmer), (int) (y * w - polmer), (int) (polmer * 2), (int) (polmer * 2));
 			}
 			
-			for (Koordinati zeton: Vodja.igra.odigraneBlack) {
+			for (Koordinati zeton: Vodja.igra.odigraneB) {
 				g2d.setColor(BARVA_B);
 				int x = zeton.getX() + 1;
 				int y = zeton.getY() + 1;
@@ -113,10 +112,9 @@ public class Platno extends JPanel implements MouseListener {
 					}
 				}
 				g2d.fillOval((int) (x * w - polmer), (int) (y * w - polmer), (int) (polmer * 2), (int) (polmer * 2));			
-
 			}
 			
-			for (Koordinati zeton: Vodja.igra.odigraneBlack) {
+			for (Koordinati zeton: Vodja.igra.odigraneB) {
 				g2d.setColor(BARVA_OBROBE);
 				int x = zeton.getX() + 1;
 				int y = zeton.getY() + 1;
@@ -139,7 +137,6 @@ public class Platno extends JPanel implements MouseListener {
 			
 			int zaokrozen_x = round(x);
 			int zaokrozen_y = round(y);
-			
 			
 			if (zaokrozen_x - x > 0.3 || zaokrozen_x - x < -0.3) return;
 			if (y - zaokrozen_y > 0.3 || y - zaokrozen_y < -0.3) return;
