@@ -1,10 +1,12 @@
 package vodja;
 
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import gui.Okno;
 
 import java.util.Map;
+import java.util.EnumMap;
 import java.util.List;
 
 import logika.Igra;
@@ -13,26 +15,31 @@ import splosno.Koordinati;
 
 public class Vodja {
 	
-	public static Map<Igralec,VrstaIgralca> vrstaIgralca;
+	public Map<Igralec,VrstaIgralca> vrstaIgralca;
 	
-	public static Okno okno;
+	//public Okno okno;
 	
-	public static boolean clovekNaVrsti = false;
+	public boolean clovekNaVrsti;
 	
-	public static Igra igra = null;
+	public Igra igra;
 	
-	public static Koordinati poteza = null;
+	public Koordinati poteza;
 	
-	public static int velikost;
+	public int velikost;
 
-	public static void igramoNovoIgro () {
-		igra = new Igra ();
-		poteza = null;
-		igramo();
+	public Vodja() {
+		this.igra = new Igra ();
+		this.poteza = null;
+		this.clovekNaVrsti = false;
+		vrstaIgralca = new EnumMap<Igralec,VrstaIgralca>(Igralec.class);
+		vrstaIgralca.put(Igralec.W, VrstaIgralca.R); 
+		vrstaIgralca.put(Igralec.B, VrstaIgralca.C);
+		//this.okno = new Okno();
+		//igramo();
 	}
 	
-	public static void igramo () {
-		okno.osveziGUI();
+	public void igramo() {
+		//okno.osveziGUI();
 		if (igra == null) return;
 		switch (igra.stanje(poteza)) {
 		case ZMAGA_W:
@@ -55,19 +62,19 @@ public class Vodja {
 	
 	private static Random random = new Random ();
 	
-	public static void igrajRacunalnikovoPotezo() {
+	public void igrajRacunalnikovoPotezo() {
 		List<Koordinati> moznePoteze = igra.moznePoteze;
 		int randomIndex = random.nextInt(moznePoteze.size());
 		Koordinati k = moznePoteze.get(randomIndex);
 		igra.odigraj(k);
 		poteza = k;
-		igramo ();
+		igramo();
 	}
 	
-	public static void igrajClovekovaPoteza(Koordinati k){
+	public void igrajClovekovaPoteza(Koordinati k){
 		if (igra.odigraj(k)) clovekNaVrsti = false;
 		poteza = k;
-		igramo ();
+		igramo();
 	} 
 
 }

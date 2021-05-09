@@ -20,27 +20,86 @@ import vodja.Vodja;
 @SuppressWarnings("serial")
 public class Platno extends JPanel implements MouseListener {
 	
-	public Color ODZADJE = new Color(222,184,135);
-	public Color BARVA_W = new Color(250,235,215);
-	public Color BARVA_B = new Color(128,0,0);
-	public Color BARVA_MREZE = Color.BLACK;
-	private final static Color BARVA_OBROBE = Color.BLACK;
-	private final static Color ZMAGA = Color.YELLOW;
+	//public Color ODZADJE = new Color(222,184,135);
+	//public Color BARVA_W = new Color(250,235,215);
+	//public Color BARVA_B = new Color(128,0,0);
+	//public Color BARVA_MREZE = Color.BLACK;
+	//private final static Color BARVA_OBROBE = Color.BLACK;
+	//private final static Color ZMAGA = Color.YELLOW;
 
-	private final static double DEBELINA_MREZE = 0.08;
-	private final static double DEBELINA_OBROBE = 0.065;
+	//private final static double DEBELINA_MREZE = 0.08;
+	//private final static double DEBELINA_OBROBE = 0.065;
 	
-	public Igralec zmagovalec = null;
-	private Vrsta zmagovalnaVrsta;
+	//public Igralec zmagovalec = null;
+	//private Vrsta zmagovalnaVrsta;
 
-	public Platno() {
-		setBackground(ODZADJE);
+	//public Platno() {
+	//	setBackground(ODZADJE);
+	//	addMouseListener(this);
+	//}
+	
+	
+	
+	
+	//@Override
+	//public Dimension getPreferredSize() {
+	//	return new Dimension(400, 400);
+	//}
+	
+	public Vodja vodja;
+	
+	protected Color barvaOzadja;
+	protected Color barvaMreze;
+	protected Color barvaB;
+	protected Color barvaW;
+	protected Color barvaObrobe;
+	protected double debelinaMreze;
+	protected double debelinaObrobe;
+	
+	protected int sirina;
+	protected int visina;
+	protected int polmer;
+	
+	public Igralec zmagovalec;
+	private Vrsta zmagovalnaVrsta;
+	private Color barvaZmage;
+	
+	public static final Color MAROON = new Color(128,0,0);
+	public static final Color ANTIQUE_WHITE = new Color(250,235,215);
+	public static final Color BURLY_WOOD = new Color(222,184,135);
+	
+	
+	
+	public Platno(int sirina, int visina) {
+		super();
+		setPreferredSize(new Dimension(sirina, visina));
+		vodja = null;
+		//vodja = new Vodja();
+		
+		this.barvaOzadja = BURLY_WOOD;
+		this.barvaMreze = Color.BLACK;
+		this.barvaB = MAROON;
+		this.barvaW = ANTIQUE_WHITE;
+		this.barvaObrobe = Color.BLACK;
+		this.debelinaMreze = 0.08;
+		this.debelinaObrobe = 0.065;
+		
+		this.sirina = sirina;
+		this.visina = visina;
+		
+		this.polmer = 15;
+		
+		this.zmagovalec = null;
+		this.zmagovalnaVrsta = null;
+		this.barvaZmage = Color.YELLOW;
+		
 		addMouseListener(this);
 	}
 	
-	@Override
-	public Dimension getPreferredSize() {
-		return new Dimension(400, 400);
+	public void nastaviIgro(Vodja vodja) {
+		this.vodja = vodja;
+		repaint();
+		
 	}
 	
 	private double squareWidth() {
@@ -56,16 +115,16 @@ public class Platno extends JPanel implements MouseListener {
 		double polmer = w / 2.3;
 		
 //		zmagovalec
-		if (Vodja.poteza != null && Vodja.igra != null) {
-			zmagovalnaVrsta = Vodja.igra.zmagovalnaVrsta(Vodja.poteza);
+		if (vodja.poteza != null && vodja.igra != null) {
+			zmagovalnaVrsta = vodja.igra.zmagovalnaVrsta(vodja.poteza);
 			if (zmagovalnaVrsta != null) {
-				zmagovalec = Vodja.igra.cigavaVrsta(zmagovalnaVrsta);
+				zmagovalec = vodja.igra.cigavaVrsta(zmagovalnaVrsta);
 			}
 		}
 
 //		mreža
-		g2d.setColor(BARVA_MREZE);
-		g2d.setStroke(new BasicStroke((float)(w * DEBELINA_MREZE)));
+		g2d.setColor(barvaMreze);
+		g2d.setStroke(new BasicStroke((float)(w * debelinaMreze)));
 		
 //		navpiène èrte
 		for (int i = 1; i < Igra.n + 1; i++) {
@@ -77,45 +136,45 @@ public class Platno extends JPanel implements MouseListener {
 			g2d.drawLine(0, (int) (j * w), (int)((Igra.n + 1) * w), (int) (j * w));
 		}
 		
-		if (Vodja.igra != null) {
+		if (vodja.igra != null) {
 //			žetoni
-			g2d.setStroke(new BasicStroke((float)(w * DEBELINA_OBROBE)));
+			g2d.setStroke(new BasicStroke((float)(w * debelinaObrobe)));
 			
-			for (Koordinati zeton: Vodja.igra.odigraneW) {
-				g2d.setColor(BARVA_W);
+			for (Koordinati zeton: vodja.igra.odigraneW) {
+				g2d.setColor(barvaW);
 				int x = zeton.getX() + 1;
 				int y = zeton.getY() + 1;
 				if (zmagovalec == Igralec.W) {
 					Koordinati[] koordinate = zmagovalnaVrsta.koordinateVVrsti();
 					if (Arrays.asList(koordinate).contains(zeton)) {
-						g2d.setColor(ZMAGA);
+						g2d.setColor(barvaZmage);
 					}
 				}
 				g2d.fillOval((int)(x * w - polmer), (int) (y * w - polmer), (int) (polmer * 2), (int) (polmer * 2));
 			}	
 			
-			for (Koordinati zeton: Vodja.igra.odigraneW) {
-				g2d.setColor(BARVA_OBROBE);
+			for (Koordinati zeton: vodja.igra.odigraneW) {
+				g2d.setColor(barvaObrobe);
 				int x = zeton.getX() + 1;
 				int y = zeton.getY() + 1;
 				g2d.drawOval((int) (x * w - polmer), (int) (y * w - polmer), (int) (polmer * 2), (int) (polmer * 2));
 			}
 			
-			for (Koordinati zeton: Vodja.igra.odigraneB) {
-				g2d.setColor(BARVA_B);
+			for (Koordinati zeton: vodja.igra.odigraneB) {
+				g2d.setColor(barvaB);
 				int x = zeton.getX() + 1;
 				int y = zeton.getY() + 1;
 				if (zmagovalec == Igralec.B) {
 					Koordinati[] koordinate = zmagovalnaVrsta.koordinateVVrsti();
 					if (Arrays.asList(koordinate).contains(zeton)) {
-						g2d.setColor(ZMAGA);
+						g2d.setColor(barvaZmage);
 					}
 				}
 				g2d.fillOval((int) (x * w - polmer), (int) (y * w - polmer), (int) (polmer * 2), (int) (polmer * 2));			
 			}
 			
-			for (Koordinati zeton: Vodja.igra.odigraneB) {
-				g2d.setColor(BARVA_OBROBE);
+			for (Koordinati zeton: vodja.igra.odigraneB) {
+				g2d.setColor(barvaObrobe);
 				int x = zeton.getX() + 1;
 				int y = zeton.getY() + 1;
 				g2d.drawOval((int) (x * w - polmer), (int) (y * w - polmer), (int) (polmer * 2), (int) (polmer * 2));
@@ -129,7 +188,7 @@ public class Platno extends JPanel implements MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if (Vodja.clovekNaVrsti) {
+		if (vodja.clovekNaVrsti) {
 			double w = squareWidth();
 			
 			double x = (e.getX() / w);
@@ -147,7 +206,7 @@ public class Platno extends JPanel implements MouseListener {
 			if (koordinata_x >= Igra.n || koordinata_y >= Igra.n) return;
 			
 			Koordinati krizisce = new Koordinati(koordinata_x, koordinata_y);
-			Vodja.igrajClovekovaPoteza(krizisce);
+			vodja.igrajClovekovaPoteza(krizisce);
 			repaint();
 		}
 	}
