@@ -376,7 +376,21 @@ public class Okno extends JFrame implements ActionListener{
 		} else if (e.getSource() == imeB) {
 			StringImeB = JOptionPane.showInputDialog("Vnesite ime:");
 		} else if (e.getSource() == hitrostRacunalnika) {
-//			TO DO
+			int hitrost = -1;
+			try {
+				hitrost = Integer.parseInt(JOptionPane.showInputDialog("Vnesite želeno hitrost raèunalnika v sekundah:"));
+				if (hitrost < 0 || hitrost > 10) {
+					status.setText("Hitrost raèunalnika mora biti veèja od 0 in manjša od 10.");
+					hitrost = -1;
+				}
+			} catch (NumberFormatException e1) {
+			status.setText("To pa ne bo šlo");
+			}
+			
+			if (hitrost != -1) {
+				Vodja.hitrost = hitrost;
+			}
+			
 		} else if (e.getSource() == algoritem) {
 //			TO DO
 		} else if (e.getSource() == razveljavi){

@@ -28,6 +28,8 @@ public class Vodja {
 	public Koordinati poteza;
 	
 	public int velikost;
+	
+	public static int hitrost = 2;
 
 	public Vodja() {
 		this.igra = new Igra ();
@@ -79,7 +81,7 @@ public class Vodja {
 		new SwingWorker<Koordinati, Void> () {
 			@Override
 			protected Koordinati doInBackground() {
-			try {TimeUnit.SECONDS.sleep(2);} catch (Exception e) {};
+			try {TimeUnit.SECONDS.sleep(hitrost);} catch (Exception e) {};
 			List<Koordinati> moznePoteze = igra.moznePoteze;
 			int randomIndex = random.nextInt(moznePoteze.size());
 			return moznePoteze.get(randomIndex);
