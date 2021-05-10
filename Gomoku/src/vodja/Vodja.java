@@ -3,6 +3,8 @@ package vodja;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+import javax.swing.SwingWorker;
+
 import gui.Okno;
 
 import java.util.Map;
@@ -62,13 +64,37 @@ public class Vodja {
 	
 	private static Random random = new Random ();
 	
+	//public void igrajRacunalnikovoPotezo() {
+		//List<Koordinati> moznePoteze = igra.moznePoteze;
+		//int randomIndex = random.nextInt(moznePoteze.size());
+		//Koordinati k = moznePoteze.get(randomIndex);
+		//igra.odigraj(k);
+		//poteza = k;
+		//igramo();
+	//}
+	
 	public void igrajRacunalnikovoPotezo() {
-		List<Koordinati> moznePoteze = igra.moznePoteze;
-		int randomIndex = random.nextInt(moznePoteze.size());
-		Koordinati k = moznePoteze.get(randomIndex);
-		igra.odigraj(k);
-		poteza = k;
-		igramo();
+		Igra zacetkaIgra = igra;
+		SwingWorker<Koordinati, Void> worker =
+		new SwingWorker<Koordinati, Void> () {
+			@Override
+			protected Koordinati doInBackground() {
+			try {TimeUnit.SECONDS.sleep(2);} catch (Exception e) {};
+			List<Koordinati> moznePoteze = igra.moznePoteze;
+			int randomIndex = random.nextInt(moznePoteze.size());
+			return moznePoteze.get(randomIndex);
+			}
+			@Override
+			protected void done () {
+			Koordinati poteza = null;
+			try {poteza = get();} catch (Exception e) {};
+			if (igra == zacetkaIgra) {
+			igra.odigraj(poteza);
+			igramo ();
+			}
+			}
+		};
+		worker.execute();
 	}
 	
 	public void igrajClovekovaPoteza(Koordinati k){
