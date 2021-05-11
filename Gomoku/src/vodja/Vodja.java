@@ -29,7 +29,7 @@ public class Vodja {
 	
 	public int velikost;
 	
-	public static int hitrost = 2;
+	public static int hitrost = 0;
 
 	public Vodja() {
 		this.igra = new Igra ();
@@ -66,14 +66,14 @@ public class Vodja {
 	
 	private static Random random = new Random ();
 	
-	//public void igrajRacunalnikovoPotezo() {
-		//List<Koordinati> moznePoteze = igra.moznePoteze;
-		//int randomIndex = random.nextInt(moznePoteze.size());
-		//Koordinati k = moznePoteze.get(randomIndex);
-		//igra.odigraj(k);
-		//poteza = k;
-		//igramo();
-	//}
+//	public void igrajRacunalnikovoPotezo() {
+//		List<Koordinati> moznePoteze = igra.moznePoteze;
+//		int randomIndex = random.nextInt(moznePoteze.size());
+//		Koordinati k = moznePoteze.get(randomIndex);
+//		igra.odigraj(k);
+//		poteza = k;
+//		igramo();
+//	}
 	
 	public void igrajRacunalnikovoPotezo() {
 		Igra zacetkaIgra = igra;
@@ -81,19 +81,20 @@ public class Vodja {
 		new SwingWorker<Koordinati, Void> () {
 			@Override
 			protected Koordinati doInBackground() {
-			try {TimeUnit.SECONDS.sleep(hitrost);} catch (Exception e) {};
-			List<Koordinati> moznePoteze = igra.moznePoteze;
-			int randomIndex = random.nextInt(moznePoteze.size());
-			return moznePoteze.get(randomIndex);
+				try {TimeUnit.SECONDS.sleep(hitrost);} catch (Exception e) {};
+				List<Koordinati> moznePoteze = igra.moznePoteze;
+				int randomIndex = random.nextInt(moznePoteze.size());
+				return moznePoteze.get(randomIndex);
 			}
 			@Override
 			protected void done () {
-			Koordinati poteza = null;
-			try {poteza = get();} catch (Exception e) {};
-			if (igra == zacetkaIgra) {
-			igra.odigraj(poteza);
-			igramo ();
-			}
+				Koordinati k = null;
+				try {k = get();} catch (Exception e) {};
+				if (igra == zacetkaIgra) {
+					igra.odigraj(k);
+					poteza = k;
+					igramo ();
+				}
 			}
 		};
 		worker.execute();
