@@ -34,7 +34,7 @@ public class Igra {
 				moznePoteze.add(new Koordinati(i, j));
 			}
 		}
-		naPotezi = Igralec.W;
+		naPotezi = Igralec.B;
 	}
 	
 	public Igra(Igra igra) {

@@ -20,32 +20,6 @@ import vodja.Vodja;
 @SuppressWarnings("serial")
 public class Platno extends JPanel implements MouseListener {
 	
-	//public Color ODZADJE = new Color(222,184,135);
-	//public Color BARVA_W = new Color(250,235,215);
-	//public Color BARVA_B = new Color(128,0,0);
-	//public Color BARVA_MREZE = Color.BLACK;
-	//private final static Color BARVA_OBROBE = Color.BLACK;
-	//private final static Color ZMAGA = Color.YELLOW;
-
-	//private final static double DEBELINA_MREZE = 0.08;
-	//private final static double DEBELINA_OBROBE = 0.065;
-	
-	//public Igralec zmagovalec = null;
-	//private Vrsta zmagovalnaVrsta;
-
-	//public Platno() {
-	//	setBackground(ODZADJE);
-	//	addMouseListener(this);
-	//}
-	
-	
-	
-	
-	//@Override
-	//public Dimension getPreferredSize() {
-	//	return new Dimension(400, 400);
-	//}
-	
 	public Vodja vodja;
 	
 	protected Color barvaOzadja;
@@ -73,8 +47,8 @@ public class Platno extends JPanel implements MouseListener {
 	public Platno(int sirina, int visina) {
 		super();
 		setPreferredSize(new Dimension(sirina, visina));
+
 		vodja = null;
-		//vodja = new Vodja();
 		
 		this.barvaOzadja = BURLY_WOOD;
 		this.barvaMreze = Color.BLACK;
@@ -114,70 +88,72 @@ public class Platno extends JPanel implements MouseListener {
 		double w = squareWidth();
 		double polmer = w / 2.3;
 		
-//		zmagovalec
-		if (vodja.poteza != null && vodja.igra != null) {
-			zmagovalnaVrsta = vodja.igra.zmagovalnaVrsta(vodja.poteza);
-			if (zmagovalnaVrsta != null) {
-				zmagovalec = vodja.igra.cigavaVrsta(zmagovalnaVrsta);
-			}
-		}
-
-//		mreža
-		g2d.setColor(barvaMreze);
-		g2d.setStroke(new BasicStroke((float)(w * debelinaMreze)));
-		
-//		navpiène èrte
-		for (int i = 1; i < Igra.n + 1; i++) {
-			g2d.drawLine((int)(i * w), 0, (int)(i * w), (int)((Igra.n + 1) * w));
-		}
-		
-//		vodoravne èrte
-		for (int j = 1; j < Igra.n + 1; j++) {
-			g2d.drawLine(0, (int) (j * w), (int)((Igra.n + 1) * w), (int) (j * w));
-		}
-		
-		if (vodja.igra != null) {
-//			žetoni
-			g2d.setStroke(new BasicStroke((float)(w * debelinaObrobe)));
-			
-			for (Koordinati zeton: vodja.igra.odigraneW) {
-				g2d.setColor(barvaW);
-				int x = zeton.getX() + 1;
-				int y = zeton.getY() + 1;
-				if (zmagovalec == Igralec.W) {
-					Koordinati[] koordinate = zmagovalnaVrsta.koordinateVVrsti();
-					if (Arrays.asList(koordinate).contains(zeton)) {
-						g2d.setColor(barvaZmage);
-					}
+		if (vodja != null) {
+	//		zmagovalec
+			if (vodja.poteza != null && vodja.igra != null) {
+				zmagovalnaVrsta = vodja.igra.zmagovalnaVrsta(vodja.poteza);
+				if (zmagovalnaVrsta != null) {
+					zmagovalec = vodja.igra.cigavaVrsta(zmagovalnaVrsta);
 				}
-				g2d.fillOval((int)(x * w - polmer), (int) (y * w - polmer), (int) (polmer * 2), (int) (polmer * 2));
-			}	
+			}
+	
+	//		mreža
+			g2d.setColor(barvaMreze);
+			g2d.setStroke(new BasicStroke((float)(w * debelinaMreze)));
 			
-			for (Koordinati zeton: vodja.igra.odigraneW) {
-				g2d.setColor(barvaObrobe);
-				int x = zeton.getX() + 1;
-				int y = zeton.getY() + 1;
-				g2d.drawOval((int) (x * w - polmer), (int) (y * w - polmer), (int) (polmer * 2), (int) (polmer * 2));
+	//		navpiène èrte
+			for (int i = 1; i < Igra.n + 1; i++) {
+				g2d.drawLine((int)(i * w), 0, (int)(i * w), (int)((Igra.n + 1) * w));
 			}
 			
-			for (Koordinati zeton: vodja.igra.odigraneB) {
-				g2d.setColor(barvaB);
-				int x = zeton.getX() + 1;
-				int y = zeton.getY() + 1;
-				if (zmagovalec == Igralec.B) {
-					Koordinati[] koordinate = zmagovalnaVrsta.koordinateVVrsti();
-					if (Arrays.asList(koordinate).contains(zeton)) {
-						g2d.setColor(barvaZmage);
+	//		vodoravne èrte
+			for (int j = 1; j < Igra.n + 1; j++) {
+				g2d.drawLine(0, (int) (j * w), (int)((Igra.n + 1) * w), (int) (j * w));
+			}
+			
+			if (vodja.igra != null) {
+	//			žetoni
+				g2d.setStroke(new BasicStroke((float)(w * debelinaObrobe)));
+				
+				for (Koordinati zeton: vodja.igra.odigraneW) {
+					g2d.setColor(barvaW);
+					int x = zeton.getX() + 1;
+					int y = zeton.getY() + 1;
+					if (zmagovalec == Igralec.W) {
+						Koordinati[] koordinate = zmagovalnaVrsta.koordinateVVrsti();
+						if (Arrays.asList(koordinate).contains(zeton)) {
+							g2d.setColor(barvaZmage);
+						}
 					}
+					g2d.fillOval((int)(x * w - polmer), (int) (y * w - polmer), (int) (polmer * 2), (int) (polmer * 2));
+				}	
+				
+				for (Koordinati zeton: vodja.igra.odigraneW) {
+					g2d.setColor(barvaObrobe);
+					int x = zeton.getX() + 1;
+					int y = zeton.getY() + 1;
+					g2d.drawOval((int) (x * w - polmer), (int) (y * w - polmer), (int) (polmer * 2), (int) (polmer * 2));
 				}
-				g2d.fillOval((int) (x * w - polmer), (int) (y * w - polmer), (int) (polmer * 2), (int) (polmer * 2));			
-			}
-			
-			for (Koordinati zeton: vodja.igra.odigraneB) {
-				g2d.setColor(barvaObrobe);
-				int x = zeton.getX() + 1;
-				int y = zeton.getY() + 1;
-				g2d.drawOval((int) (x * w - polmer), (int) (y * w - polmer), (int) (polmer * 2), (int) (polmer * 2));
+				
+				for (Koordinati zeton: vodja.igra.odigraneB) {
+					g2d.setColor(barvaB);
+					int x = zeton.getX() + 1;
+					int y = zeton.getY() + 1;
+					if (zmagovalec == Igralec.B) {
+						Koordinati[] koordinate = zmagovalnaVrsta.koordinateVVrsti();
+						if (Arrays.asList(koordinate).contains(zeton)) {
+							g2d.setColor(barvaZmage);
+						}
+					}
+					g2d.fillOval((int) (x * w - polmer), (int) (y * w - polmer), (int) (polmer * 2), (int) (polmer * 2));			
+				}
+				
+				for (Koordinati zeton: vodja.igra.odigraneB) {
+					g2d.setColor(barvaObrobe);
+					int x = zeton.getX() + 1;
+					int y = zeton.getY() + 1;
+					g2d.drawOval((int) (x * w - polmer), (int) (y * w - polmer), (int) (polmer * 2), (int) (polmer * 2));
+				}
 			}
 		}
 	}

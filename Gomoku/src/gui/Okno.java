@@ -8,7 +8,6 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.EnumMap;
-import java.util.concurrent.TimeUnit;
 
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
@@ -29,6 +28,8 @@ import vodja.VrstaIgralca;
 @SuppressWarnings("serial")
 public class Okno extends JFrame implements ActionListener{
 
+	private boolean zakljucenaIgra = true;
+	
 	public Platno platno;
 	
 	private JLabel status;
@@ -86,13 +87,13 @@ public class Okno extends JFrame implements ActionListener{
 		velikostIgre.addActionListener(this);
 		
 //		izbire vrst iger
-		igraClovekRacunalnik = new JMenuItem("Raèunalnik - Èlovek");
-		igra_menu.add(igraClovekRacunalnik);
-		igraClovekRacunalnik.addActionListener(this);
-		
 		igraRacunalnikClovek = new JMenuItem("Èlovek - Raèunalnik ");
 		igra_menu.add(igraRacunalnikClovek);
 		igraRacunalnikClovek.addActionListener(this);
+		
+		igraClovekRacunalnik = new JMenuItem("Raèunalnik - Èlovek");
+		igra_menu.add(igraClovekRacunalnik);
+		igraClovekRacunalnik.addActionListener(this);
 		
 		igraClovekClovek = new JMenuItem("Èlovek - Èlovek");
 		igra_menu.add(igraClovekClovek);
@@ -178,125 +179,38 @@ public class Okno extends JFrame implements ActionListener{
 		
 	}
 	
+	private void nastaviIgralce(VrstaIgralca W, VrstaIgralca B) {
+		int novaIgra = 0;
+		if (!zakljucenaIgra) {
+			int optionPane = JOptionPane.showConfirmDialog(null,
+				    "Ali res želite zakljuèiti s trenutno igro?",
+				    "Potrditev",
+				    JOptionPane.YES_NO_OPTION,
+				    JOptionPane.WARNING_MESSAGE);
+			if (optionPane != JOptionPane.YES_OPTION) novaIgra = 1;
+		}
+		if (novaIgra == 0) {
+			Vodja vodja = new Vodja(this);
+			vodja.vrstaIgralca = new EnumMap<Igralec,VrstaIgralca>(Igralec.class);
+			vodja.vrstaIgralca.put(Igralec.B, B); 
+			vodja.vrstaIgralca.put(Igralec.W, W);
+			platno.nastaviIgro(vodja);
+			platno.zmagovalec = null;
+			zakljucenaIgra = false;
+			platno.vodja.igramo();
+		}
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == igraClovekRacunalnik) {
-			int novaIgra = 0;
-			if (platno.vodja.igra != null) {
-				int optionPane = JOptionPane.showConfirmDialog(null,
-					    "Ali res želite zakljuèiti s trenutno igro?",
-					    "Potrditev",
-					    JOptionPane.YES_NO_OPTION,
-					    JOptionPane.WARNING_MESSAGE);
-				if (optionPane != JOptionPane.YES_OPTION) novaIgra = 1;
-			}
-			if (novaIgra == 0) {
-				Vodja vodja = new Vodja();
-				vodja.vrstaIgralca = new EnumMap<Igralec,VrstaIgralca>(Igralec.class);
-				vodja.vrstaIgralca.put(Igralec.B, VrstaIgralca.C); 
-				vodja.vrstaIgralca.put(Igralec.W, VrstaIgralca.R);
-				platno.nastaviIgro(vodja);
-				//Vodja.igramoNovoIgro();
-				platno.zmagovalec = null;
-				platno.vodja.igramo();
-				//Probejmo to:
-				//while (platno.vodja.igra != null) {
-				//	osveziGUI();
-				//}
-			}
+			nastaviIgralce(VrstaIgralca.C, VrstaIgralca.R);
 		} else if (e.getSource() == igraRacunalnikClovek) {
-			int novaIgra = 0;
-			if (platno.vodja.igra != null) {
-				int optionPane = JOptionPane.showConfirmDialog(null,
-					    "Ali res želite zakljuèiti s trenutno igro?",
-					    "Potrditev",
-					    JOptionPane.YES_NO_OPTION,
-					    JOptionPane.WARNING_MESSAGE);
-				if (optionPane != JOptionPane.YES_OPTION) novaIgra = 1;
-			}
-			if (novaIgra == 0) {
-				//platno.vodja = new Vodja();
-				//platno.vodja.vrstaIgralca = new EnumMap<Igralec,VrstaIgralca>(Igralec.class);
-				//platno.vodja.vrstaIgralca.put(Igralec.B, VrstaIgralca.R); 
-				//platno.vodja.vrstaIgralca.put(Igralec.W, VrstaIgralca.C);
-				//Vodja.igramoNovoIgro();
-				//platno.zmagovalec = null;
-				//platno.vodja.igramo();
-				Vodja vodja = new Vodja();
-				vodja.vrstaIgralca = new EnumMap<Igralec,VrstaIgralca>(Igralec.class);
-				vodja.vrstaIgralca.put(Igralec.B, VrstaIgralca.R); 
-				vodja.vrstaIgralca.put(Igralec.W, VrstaIgralca.C);
-				platno.nastaviIgro(vodja);
-				//Vodja.igramoNovoIgro();
-				platno.zmagovalec = null;
-				platno.vodja.igramo();
-				//Probejmo to:
-				//while (platno.vodja.igra != null) {
-				//	osveziGUI();
-				//}
-			}
+			nastaviIgralce(VrstaIgralca.R, VrstaIgralca.C);
 		} else if (e.getSource() == igraClovekClovek) {
-			int novaIgra = 0;
-			if (platno.vodja.igra != null) {
-				int optionPane = JOptionPane.showConfirmDialog(null,
-					    "Ali res želite zakljuèiti s trenutno igro?",
-					    "Potrditev",
-					    JOptionPane.YES_NO_OPTION,
-					    JOptionPane.WARNING_MESSAGE);
-				if (optionPane != JOptionPane.YES_OPTION) novaIgra = 1;
-			}
-			if (novaIgra == 0) {
-				//platno.vodja = new Vodja();
-				//platno.vodja.vrstaIgralca = new EnumMap<Igralec,VrstaIgralca>(Igralec.class);
-				//platno.vodja.vrstaIgralca.put(Igralec.W, VrstaIgralca.C); 
-				//platno.vodja.vrstaIgralca.put(Igralec.B, VrstaIgralca.C);
-				//Vodja.igramoNovoIgro();
-				//platno.zmagovalec = null;
-				//platno.vodja.igramo();
-				Vodja vodja = new Vodja();
-				vodja.vrstaIgralca = new EnumMap<Igralec,VrstaIgralca>(Igralec.class);
-				vodja.vrstaIgralca.put(Igralec.B, VrstaIgralca.C); 
-				vodja.vrstaIgralca.put(Igralec.W, VrstaIgralca.C);
-				platno.nastaviIgro(vodja);
-				//Vodja.igramoNovoIgro();
-				platno.zmagovalec = null;
-				platno.vodja.igramo();
-				//Probejmo to:
-				//while (platno.vodja.igra != null) {
-				//	osveziGUI();
-				//}
-			}
+			nastaviIgralce(VrstaIgralca.C, VrstaIgralca.C);
 		} else if (e.getSource() == igraRacunalnikRacunalnik) {
-			int novaIgra = 0;
-			if (platno.vodja.igra != null) {
-				int optionPane = JOptionPane.showConfirmDialog(null,
-					    "Ali res želite zakljuèiti s trenutno igro?",
-					    "Potrditev",
-					    JOptionPane.YES_NO_OPTION,
-					    JOptionPane.WARNING_MESSAGE);
-				if (optionPane != JOptionPane.YES_OPTION) novaIgra = 1;
-			}
-			if (novaIgra == 0) {
-				//platno.vodja = new Vodja();
-				//platno.vodja.vrstaIgralca = new EnumMap<Igralec,VrstaIgralca>(Igralec.class);
-				//platno.vodja.vrstaIgralca.put(Igralec.B, VrstaIgralca.R); 
-				//platno.vodja.vrstaIgralca.put(Igralec.W, VrstaIgralca.R);
-				//Vodja.igramoNovoIgro();
-				//platno.zmagovalec = null;
-				//platno.vodja.igramo();
-				Vodja vodja = new Vodja();
-				vodja.vrstaIgralca = new EnumMap<Igralec,VrstaIgralca>(Igralec.class);
-				vodja.vrstaIgralca.put(Igralec.B, VrstaIgralca.R); 
-				vodja.vrstaIgralca.put(Igralec.W, VrstaIgralca.R);
-				platno.nastaviIgro(vodja);
-				//Vodja.igramoNovoIgro();
-				platno.zmagovalec = null;
-				platno.vodja.igramo();
-				//Probejmo to:
-				//while (platno.vodja.igra != null) {
-				//	osveziGUI();
-				//}
-			}
+			nastaviIgralce(VrstaIgralca.R, VrstaIgralca.R);
 		} else if (e.getSource() == velikostIgre) {
 			int velikost = 0;
 			try {
@@ -311,7 +225,7 @@ public class Okno extends JFrame implements ActionListener{
 			
 			if (velikost != 0) {
 				int novaIgra = 0;
-				if (platno.vodja.igra != null) {
+				if (!zakljucenaIgra) {
 					int optionPane = JOptionPane.showConfirmDialog(null,
 						    "Ali res želite zakljuèiti s trenutno igro?",
 						    "Potrditev",
@@ -320,33 +234,12 @@ public class Okno extends JFrame implements ActionListener{
 					if (optionPane != JOptionPane.YES_OPTION) novaIgra = 1;
 				}
 				if (novaIgra == 0) {
-					//platno.vodja.igra.n = velikost
 					Igra.n = velikost;
-					VrstaIgralca beli = platno.vodja.vrstaIgralca.get(Igralec.W);
-					VrstaIgralca crni = platno.vodja.vrstaIgralca.get(Igralec.B);
-					//Vodja vodja = new Vodja();
-					//platno.nastaviIgro(vodja);
-					//platno.vodja.igra = null;
-					//platno.vodja.clovekNaVrsti = false;
-					//status.setText("Izberite igro!");
-					//platno.vodja.igramo();
-					
-					//platno.vodja = new Vodja();
-					//platno.vodja.vrstaIgralca = new EnumMap<Igralec,VrstaIgralca>(Igralec.class);
-					//platno.vodja.vrstaIgralca.put(Igralec.W, VrstaIgralca.C); 
-					//platno.vodja.vrstaIgralca.put(Igralec.B, VrstaIgralca.C);
-					//Vodja.igramoNovoIgro();
-					//platno.zmagovalec = null;
-					//platno.vodja.igramo();
-					
-					Vodja vodja = new Vodja();
-					vodja.vrstaIgralca = new EnumMap<Igralec,VrstaIgralca>(Igralec.class);
-					vodja.vrstaIgralca.put(Igralec.B, crni); 
-					vodja.vrstaIgralca.put(Igralec.W, beli);
+					Vodja vodja = new Vodja(this);
 					platno.nastaviIgro(vodja);
-					//Vodja.igramoNovoIgro();
 					platno.zmagovalec = null;
-					platno.vodja.igramo();
+					zakljucenaIgra = true;
+					status.setText("Izberite igro!");
 				}
 			}
 		} else if (e.getSource() == barvaOzadja) {
@@ -394,56 +287,66 @@ public class Okno extends JFrame implements ActionListener{
 		} else if (e.getSource() == algoritem) {
 //			TO DO
 		} else if (e.getSource() == razveljavi){
-			if (platno.vodja.igra != null) {
-				Koordinati p = platno.vodja.igra.razveljavi();
-				if (p != null) {
+			if (platno.vodja.vrstaIgralca != null) {				
+				if (platno.vodja.igra.odigraneB.size() != 0 || platno.vodja.igra.odigraneW.size() != 0) {
+					Koordinati p = platno.vodja.igra.razveljavi();
 					platno.vodja.poteza = p;
 					platno.zmagovalec = null;
 					platno.vodja.igramo();
 					osveziGUI();
 				}
+				else status.setText("Ni mogoèe razveljaviti!");
 			}
 		}
 		platno.repaint();
 	}
 	
 	public void osveziGUI() {
-		if (platno.vodja.igra == null) {
+		if (platno.vodja == null) {
 			status.setText("Igra ni v teku.");
+			zakljucenaIgra = true;
 		}
-		else {
+		else if (platno.vodja.vrstaIgralca != null) {
+			System.out.println(platno.vodja.igra.stanje(platno.vodja.poteza));
 			switch(platno.vodja.igra.stanje(platno.vodja.poteza)) {
 			case NEODLOCENO: status.setText("Neodloèeno!");
+			zakljucenaIgra = true;
 				break;
-			case V_TEKU: 
-				if (platno.vodja.igra.naPotezi == Igralec.W) {
-					if (StringImeW == null) {
-						status.setText("Na potezi je 1. igralec - " + platno.vodja.vrstaIgralca.get(platno.vodja.igra.naPotezi));
-					} else {
-						status.setText("Na potezi je " + StringImeW + 
-						" - " + platno.vodja.vrstaIgralca.get(platno.vodja.igra.naPotezi));
+			case V_TEKU:
+				if (platno.vodja.vrstaIgralca != null) {
+					if (platno.vodja.igra.naPotezi == Igralec.W) {
+						if (StringImeW == null) {
+							status.setText("Na potezi je 2. igralec - " + platno.vodja.vrstaIgralca.get(platno.vodja.igra.naPotezi));
+						} else {
+							status.setText("Na potezi je " + StringImeW + 
+							" - " + platno.vodja.vrstaIgralca.get(platno.vodja.igra.naPotezi));
+						}
 					}
-				}
-				if (platno.vodja.igra.naPotezi == Igralec.B) {
-					if (StringImeB == null) {
-						status.setText("Na potezi je 2. igralec  - " + platno.vodja.vrstaIgralca.get(platno.vodja.igra.naPotezi));
-					} else {
-						status.setText("Na potezi je " + StringImeB + 
-						" - " + platno.vodja.vrstaIgralca.get(platno.vodja.igra.naPotezi));
+					if (platno.vodja.igra.naPotezi == Igralec.B) {
+						if (StringImeB == null) {
+							status.setText("Na potezi je 1. igralec - " + platno.vodja.vrstaIgralca.get(platno.vodja.igra.naPotezi));
+						} else {
+							status.setText("Na potezi je " + StringImeB + 
+							" - " + platno.vodja.vrstaIgralca.get(platno.vodja.igra.naPotezi));
+						}
 					}
+					break;
 				}
-				break;
 			case ZMAGA_B:
 				if (StringImeB == null) {
 					status.setText("Zmagal je 2. igralec - "  + 
 							platno.vodja.vrstaIgralca.get(Igralec.B));
 				} else status.setText("Zmagal je " + StringImeB + "!");
+				zakljucenaIgra = true;
+
 				break;
 			case ZMAGA_W:
 				if (StringImeB == null) {
 					status.setText("Zmagal je 1. igralec - "  + 
 							platno.vodja.vrstaIgralca.get(Igralec.W));
 				} else status.setText("Zmagal je " + StringImeW + "!");
+				zakljucenaIgra = true;
+
 				break;
 			}
 		}

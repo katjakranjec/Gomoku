@@ -23,7 +23,7 @@ public class Vodja {
 	
 	public Map<Igralec,VrstaIgralca> vrstaIgralca;
 	
-	//public Okno okno;
+	public Okno okno;
 	
 	public boolean clovekNaVrsti;
 	
@@ -35,19 +35,16 @@ public class Vodja {
 	
 	public static int hitrost = 0;
 
-	public Vodja() {
+	public Vodja(Okno okno) {
 		this.igra = new Igra ();
 		this.poteza = null;
 		this.clovekNaVrsti = false;
-		vrstaIgralca = new EnumMap<Igralec,VrstaIgralca>(Igralec.class);
-		vrstaIgralca.put(Igralec.W, VrstaIgralca.R); 
-		vrstaIgralca.put(Igralec.B, VrstaIgralca.C);
-		//this.okno = new Okno();
+		this.okno = okno;
 		//igramo();
 	}
 	
 	public void igramo() {
-		//okno.osveziGUI();
+		okno.osveziGUI();
 		if (igra == null) return;
 		switch (igra.stanje(poteza)) {
 		case ZMAGA_W:
@@ -117,5 +114,4 @@ public class Vodja {
 		poteza = k;
 		igramo();
 	} 
-
 }
