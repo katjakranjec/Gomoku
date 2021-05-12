@@ -36,6 +36,33 @@ public class Igra {
 		}
 		naPotezi = Igralec.W;
 	}
+	
+	public Igra(Igra igra) {
+		this.plosca = new Polje[n][n];
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < n; j++) {
+				this.plosca[i][j] = igra.plosca[i][j];
+			}
+		}
+		this.naPotezi = igra.naPotezi;
+//		this.odigraneW = igra.odigraneW;
+//		this.odigraneB = igra.odigraneB;
+//		this.moznePoteze = igra.moznePoteze;
+		this.odigraneW = new LinkedList<Koordinati>();
+		this.odigraneB = new LinkedList<Koordinati>();
+		this.moznePoteze = new LinkedList<Koordinati>();
+		for (Koordinati u : igra.odigraneW) this.odigraneW.add(u);
+		for (Koordinati v : igra.odigraneB) this.odigraneB.add(v);
+		for (Koordinati w : igra.moznePoteze) this.moznePoteze.add(w);
+	}
+	
+	public Polje[][] getPlosca () {
+		return plosca;
+	}
+	
+	public Igralec naPotezi() {
+		return naPotezi;
+	}
 
 	private void vrsteVSmeri(int a1, int a2, int k1, int k2, int x, int y, HashSet<Vrsta> vrste) {
 		for (int a = 0; a < Igra.PET_V_VRSTO; ++a) {
@@ -56,7 +83,7 @@ public class Igra {
 		}
 	}
 	
-	private HashSet<Vrsta> pridobiVrste(Koordinati q) {
+	public HashSet<Vrsta> pridobiVrste(Koordinati q) {
 		int x = q.getX();
 		int y = q.getY();
 		

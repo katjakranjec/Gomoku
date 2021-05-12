@@ -6,6 +6,10 @@ import java.util.concurrent.TimeUnit;
 import javax.swing.SwingWorker;
 
 import gui.Okno;
+import inteligenca.AlphaBeta;
+import inteligenca.Inteligenca;
+import inteligenca.Minimax;
+import inteligenca.OceniPozicijo;
 
 import java.util.Map;
 import java.util.EnumMap;
@@ -75,16 +79,23 @@ public class Vodja {
 //		igramo();
 //	}
 	
+	
+	//public static Inteligenca racunalnikovaInteligenca = new Minimax(1);
+	public static Inteligenca racunalnikovaInteligenca = new AlphaBeta(2);
+	
 	public void igrajRacunalnikovoPotezo() {
 		Igra zacetkaIgra = igra;
 		SwingWorker<Koordinati, Void> worker =
 		new SwingWorker<Koordinati, Void> () {
 			@Override
 			protected Koordinati doInBackground() {
+				Koordinati m = racunalnikovaInteligenca.izberiPotezo(igra);
 				try {TimeUnit.SECONDS.sleep(hitrost);} catch (Exception e) {};
-				List<Koordinati> moznePoteze = igra.moznePoteze;
-				int randomIndex = random.nextInt(moznePoteze.size());
-				return moznePoteze.get(randomIndex);
+//				List<Koordinati> moznePoteze = igra.moznePoteze;
+//				int randomIndex = random.nextInt(moznePoteze.size());
+//				return moznePoteze.get(randomIndex);
+				System.out.println(m);
+				return m;
 			}
 			@Override
 			protected void done () {
@@ -92,6 +103,7 @@ public class Vodja {
 				try {k = get();} catch (Exception e) {};
 				if (igra == zacetkaIgra) {
 					igra.odigraj(k);
+					//OceniPozicijo.oceniPozicijo(zacetkaIgra, Igralec.W);
 					poteza = k;
 					igramo ();
 				}
