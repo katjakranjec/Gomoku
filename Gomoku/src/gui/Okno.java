@@ -106,10 +106,10 @@ public class Okno extends JFrame implements ActionListener, ChangeListener{
 		izberiVelikost.setPaintTicks(true);
 		
 		Hashtable labelTableVelikost = new Hashtable();
-		labelTableVelikost.put(0, new JLabel("5"));
-		labelTableVelikost.put(5, new JLabel("10"));
-		labelTableVelikost.put(10, new JLabel("15"));
-		labelTableVelikost.put(15, new JLabel("20"));
+		labelTableVelikost.put(5, new JLabel("5"));
+		labelTableVelikost.put(10, new JLabel("10"));
+		labelTableVelikost.put(15, new JLabel("15"));
+		labelTableVelikost.put(20, new JLabel("20"));
 		izberiVelikost.setLabelTable(labelTableVelikost);
 		izberiVelikost.setPaintLabels(true);
 		
