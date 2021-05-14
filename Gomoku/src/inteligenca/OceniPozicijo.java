@@ -31,9 +31,7 @@ public class OceniPozicijo {
 		}
 		for (Vrsta v : vrste) {
 			ocena = ocena + oceniVrsto(v, igra, jaz);
-			//System.out.println(ocena);
 		}
-		//System.out.println(ocena);
 		return ocena;	
 	}
 	

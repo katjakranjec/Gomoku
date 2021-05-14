@@ -8,6 +8,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.EnumMap;
+import java.util.Hashtable;
 
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
@@ -18,6 +19,9 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import logika.Igra;
 import logika.Igralec;
@@ -26,7 +30,7 @@ import vodja.Vodja;
 import vodja.VrstaIgralca;
 
 @SuppressWarnings("serial")
-public class Okno extends JFrame implements ActionListener{
+public class Okno extends JFrame implements ActionListener, ChangeListener{
 
 	private boolean zakljucenaIgra = true;
 	
@@ -35,22 +39,30 @@ public class Okno extends JFrame implements ActionListener{
 	private JLabel status;
 	
 //	 Izbire v menujih
+	private JMenu igra_menu;
 	private JMenuItem igraClovekRacunalnik;
 	private JMenuItem igraRacunalnikClovek;
 	private JMenuItem igraClovekClovek;
 	private JMenuItem igraRacunalnikRacunalnik;
-	private JMenuItem velikostIgre;
+	private JMenu velikost;
+	private JSlider izberiVelikost;
 	private JMenuItem barvePolja;
 	private JMenuItem barvaMreze;
 	private JMenuItem barvaOzadja;
-	private JMenuItem nastavitveIgralca;
+	private JMenu nastavitveIgralca;
 	private JMenuItem barvaW;
 	private JMenuItem barvaB;
 	private JMenuItem imeW;
 	private JMenuItem imeB;
-	private JMenuItem nastavitveRacunalnika;
-	private JMenuItem hitrostRacunalnika;
-	private JMenuItem algoritem;
+	private JMenu nastavitveRacunalnika;
+	private JMenu hitrostRacunalnika;
+	private JSlider izberiHitrost;
+	private JMenu algoritem;
+	private JMenuItem minimax;
+	private JMenuItem randomMinimax;
+	private JMenuItem alfaBeta;
+	private JMenu globina;
+	private JSlider izberiGlobino;
 	private JButton razveljavi;
 	
 	private String StringImeW;
@@ -78,13 +90,28 @@ public class Okno extends JFrame implements ActionListener{
 //		Nova igra
 		JMenuBar menu_bar = new JMenuBar();
 		this.setJMenuBar(menu_bar);
-		JMenu igra_menu = new JMenu("Nova igra");
+		igra_menu = new JMenu("Nova igra");
 		menu_bar.add(igra_menu);
 		
 //		Velikost igralnega polja
-		velikostIgre = new JMenuItem("Velikost igralnega polja");
-		igra_menu.add(velikostIgre);
-		velikostIgre.addActionListener(this);
+		velikost = new JMenu("Velikost igralnega polja");
+		igra_menu.add(velikost);		
+		
+		izberiVelikost = new JSlider(5, 20, 15);
+		velikost.add(izberiVelikost);
+		izberiVelikost.addChangeListener(this);
+		
+		izberiVelikost.setPaintTicks(true);
+		izberiVelikost.setMajorTickSpacing(1);
+		izberiVelikost.setPaintTicks(true);
+		
+		Hashtable labelTableVelikost = new Hashtable();
+		labelTableVelikost.put(0, new JLabel("5"));
+		labelTableVelikost.put(5, new JLabel("10"));
+		labelTableVelikost.put(10, new JLabel("15"));
+		labelTableVelikost.put(15, new JLabel("20"));
+		izberiVelikost.setLabelTable(labelTableVelikost);
+		izberiVelikost.setPaintLabels(true);
 		
 //		izbire vrst iger
 		igraRacunalnikClovek = new JMenuItem("Èlovek - Raèunalnik ");
@@ -110,7 +137,6 @@ public class Okno extends JFrame implements ActionListener{
 //		Nastavitve za igralce
 		nastavitveIgralca = new JMenu("Nastavitve igralcev...");
 		nastavitve.add(nastavitveIgralca);
-		nastavitveIgralca.addActionListener(this);
 		
 		imeW = new JMenuItem("Ime 1. igralca");
 		nastavitveIgralca.add(imeW);
@@ -131,15 +157,61 @@ public class Okno extends JFrame implements ActionListener{
 //		Nastavitve za raèunalnik
 		nastavitveRacunalnika = new JMenu("Nastavitve raèunalnika...");
 		nastavitve.add(nastavitveRacunalnika);
-		nastavitveRacunalnika.addActionListener(this);
 		
-		hitrostRacunalnika = new JMenuItem("Hitrost, s katero igra raèunalnik");
+		hitrostRacunalnika = new JMenu("Hitrost, s katero igra raèunalnik");
 		nastavitveRacunalnika.add(hitrostRacunalnika);
-		hitrostRacunalnika.addActionListener(this);
 		
-		algoritem = new JMenuItem("Algoritem, s katerim igra raèunalnik");
+		izberiHitrost = new JSlider(0, 10, 2);
+		hitrostRacunalnika.add(izberiHitrost);
+		izberiHitrost.addChangeListener(this);
+		
+		izberiHitrost.setPaintTicks(true);
+		izberiHitrost.setMajorTickSpacing(1);
+		izberiHitrost.setPaintTicks(true);
+		
+		Hashtable labelTableHitrost = new Hashtable();
+		labelTableHitrost.put(0, new JLabel("0"));
+		labelTableHitrost.put(2, new JLabel("2"));
+		labelTableHitrost.put(5, new JLabel("5"));
+		labelTableHitrost.put(8, new JLabel("8"));
+		labelTableHitrost.put(10, new JLabel("10"));
+		izberiHitrost.setLabelTable( labelTableHitrost );
+		izberiHitrost.setPaintLabels(true);
+		
+		algoritem = new JMenu("Algoritem, s katerim igra raèunalnik...");
 		nastavitveRacunalnika.add(algoritem);
-		algoritem.addActionListener(this);
+		
+		minimax = new JMenuItem("Minimax");
+		algoritem.add(minimax);
+		minimax.addActionListener(this);
+		
+		randomMinimax = new JMenuItem("Random Minimax");
+		algoritem.add(randomMinimax);
+		randomMinimax.addActionListener(this);
+		
+		alfaBeta = new JMenuItem("AlfaBeta");
+		algoritem.add(alfaBeta);
+		alfaBeta.addActionListener(this);
+		
+		globina = new JMenu("Globina algoritma...");
+		nastavitveRacunalnika.add(globina);
+		
+		izberiGlobino = new JSlider(1, 5, 1);
+		globina.add(izberiGlobino);
+		izberiGlobino.addChangeListener(this);
+		
+		izberiGlobino.setPaintTicks(true);
+		izberiGlobino.setMajorTickSpacing(1);
+		izberiGlobino.setPaintTicks(true);
+		
+		Hashtable labelTableGlobina = new Hashtable();
+		labelTableGlobina.put(1, new JLabel("1"));
+		labelTableGlobina.put(2, new JLabel("2"));
+		labelTableGlobina.put(3, new JLabel("3"));
+		labelTableGlobina.put(4, new JLabel("4"));
+		labelTableGlobina.put(5, new JLabel("5"));
+		izberiGlobino.setLabelTable( labelTableGlobina );
+		izberiGlobino.setPaintLabels(true);
 		
 //		Nastavitve barv
 		barvePolja = new JMenu("Barva polja...");
@@ -211,37 +283,6 @@ public class Okno extends JFrame implements ActionListener{
 			nastaviIgralce(VrstaIgralca.C, VrstaIgralca.C);
 		} else if (e.getSource() == igraRacunalnikRacunalnik) {
 			nastaviIgralce(VrstaIgralca.R, VrstaIgralca.R);
-		} else if (e.getSource() == velikostIgre) {
-			int velikost = 0;
-			try {
-				velikost = Integer.parseInt(JOptionPane.showInputDialog("Vnesite želeno velikost polja:"));
-				if (velikost < 5 || velikost > 20) {
-					status.setText("Velikost polja mora biti veèja od 5 in manjša od 20.");
-					velikost = 0;
-				}
-			} catch (NumberFormatException e1) {
-				status.setText("Èe želite doloèiti velikost igralnega polja vnesite številko (Nova igra > Velikost igralnega polja)");
-			}
-			
-			if (velikost != 0) {
-				int novaIgra = 0;
-				if (!zakljucenaIgra) {
-					int optionPane = JOptionPane.showConfirmDialog(null,
-						    "Ali res želite zakljuèiti s trenutno igro?",
-						    "Potrditev",
-						    JOptionPane.YES_NO_OPTION,
-						    JOptionPane.WARNING_MESSAGE);
-					if (optionPane != JOptionPane.YES_OPTION) novaIgra = 1;
-				}
-				if (novaIgra == 0) {
-					Igra.n = velikost;
-					Vodja vodja = new Vodja(this);
-					platno.nastaviIgro(vodja);
-					platno.zmagovalec = null;
-					zakljucenaIgra = true;
-					status.setText("Izberite igro!");
-				}
-			}
 		} else if (e.getSource() == barvaOzadja) {
 			Color barvaOzadja = JColorChooser.showDialog(this, "Izberite barvo", platno.barvaOzadja);
 			if (barvaOzadja != null) {
@@ -268,7 +309,7 @@ public class Okno extends JFrame implements ActionListener{
 			StringImeW = JOptionPane.showInputDialog("Vnesite ime:");
 		} else if (e.getSource() == imeB) {
 			StringImeB = JOptionPane.showInputDialog("Vnesite ime:");
-		} else if (e.getSource() == hitrostRacunalnika) {
+		} else if (e.getSource() == izberiHitrost) {
 			int hitrost = -1;
 			try {
 				hitrost = Integer.parseInt(JOptionPane.showInputDialog("Vnesite želeno hitrost raèunalnika v sekundah:"));
@@ -284,8 +325,12 @@ public class Okno extends JFrame implements ActionListener{
 				Vodja.hitrost = hitrost;
 			}
 			
-		} else if (e.getSource() == algoritem) {
-//			TO DO
+		} else if (e.getSource() == minimax) {
+			Vodja.inteligenca = "Minimax";
+		} else if (e.getSource() == randomMinimax) {
+			Vodja.inteligenca = "RandomMinimax";
+		} else if (e.getSource() == alfaBeta) {
+			Vodja.inteligenca = "AlfaBeta";
 		} else if (e.getSource() == razveljavi){
 			if (platno.vodja.vrstaIgralca != null) {				
 				if (platno.vodja.igra.odigraneB.size() != 0 || platno.vodja.igra.odigraneW.size() != 0) {
@@ -307,7 +352,6 @@ public class Okno extends JFrame implements ActionListener{
 			zakljucenaIgra = true;
 		}
 		else if (platno.vodja.vrstaIgralca != null) {
-			System.out.println(platno.vodja.igra.stanje(platno.vodja.poteza));
 			switch(platno.vodja.igra.stanje(platno.vodja.poteza)) {
 			case NEODLOCENO: status.setText("Neodloèeno!");
 			zakljucenaIgra = true;
@@ -351,5 +395,51 @@ public class Okno extends JFrame implements ActionListener{
 			}
 		}
 		platno.repaint();
+	}
+
+	@Override
+	public void stateChanged(ChangeEvent e) {
+		if (e.getSource() == izberiGlobino) {
+			int globina = -1;
+			JSlider source = (JSlider)e.getSource();
+		    if (!source.getValueIsAdjusting()) {
+		    	globina = (int)source.getValue();
+		    }
+		    if (globina != -1) Vodja.globina = globina;
+		} else if (e.getSource() == izberiVelikost) {
+			int n = 0;
+			JSlider source = (JSlider)e.getSource();
+		    if (!source.getValueIsAdjusting()) {
+		    	n = (int)source.getValue();
+		    }
+			if (n != 0) {
+				int novaIgra = 0;
+				if (!zakljucenaIgra) {
+					int optionPane = JOptionPane.showConfirmDialog(null,
+						    "Ali res želite zakljuèiti s trenutno igro?",
+						    "Potrditev",
+						    JOptionPane.YES_NO_OPTION,
+						    JOptionPane.WARNING_MESSAGE);
+					if (optionPane != JOptionPane.YES_OPTION) novaIgra = 1;
+				}
+				if (novaIgra == 0) {
+					Igra.n = n;
+					Vodja vodja = new Vodja(this);
+					platno.nastaviIgro(vodja);
+					platno.zmagovalec = null;
+					zakljucenaIgra = true;
+					status.setText("Izberite igro!");
+				}
+			}
+		} else if (e.getSource() == izberiHitrost) {
+			int hitrost = -1;
+			JSlider source = (JSlider)e.getSource();
+		    if (!source.getValueIsAdjusting()) {
+		    	hitrost = (int)source.getValue();
+		    }
+			if (hitrost != -1) {
+				Vodja.hitrost = hitrost;
+			}
+		}
 	}
 }

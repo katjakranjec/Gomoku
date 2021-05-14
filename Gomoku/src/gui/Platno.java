@@ -164,26 +164,28 @@ public class Platno extends JPanel implements MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if (vodja.clovekNaVrsti) {
-			double w = squareWidth();
-			
-			double x = (e.getX() / w);
-			double y = (e.getY() / w);
-			
-			int zaokrozen_x = round(x);
-			int zaokrozen_y = round(y);
-			
-			if (zaokrozen_x - x > 0.3 || zaokrozen_x - x < -0.3) return;
-			if (y - zaokrozen_y > 0.3 || y - zaokrozen_y < -0.3) return;
-			
-			int koordinata_x = zaokrozen_x - 1;
-			int koordinata_y = zaokrozen_y - 1;
-			
-			if (koordinata_x >= Igra.n || koordinata_y >= Igra.n) return;
-			
-			Koordinati krizisce = new Koordinati(koordinata_x, koordinata_y);
-			vodja.igrajClovekovaPoteza(krizisce);
-			repaint();
+		if (vodja != null) {
+			if (vodja.clovekNaVrsti) {
+				double w = squareWidth();
+				
+				double x = (e.getX() / w);
+				double y = (e.getY() / w);
+				
+				int zaokrozen_x = round(x);
+				int zaokrozen_y = round(y);
+				
+				if (zaokrozen_x - x > 0.3 || zaokrozen_x - x < -0.3) return;
+				if (y - zaokrozen_y > 0.3 || y - zaokrozen_y < -0.3) return;
+				
+				int koordinata_x = zaokrozen_x - 1;
+				int koordinata_y = zaokrozen_y - 1;
+				
+				if (koordinata_x >= Igra.n || koordinata_y >= Igra.n) return;
+				
+				Koordinati krizisce = new Koordinati(koordinata_x, koordinata_y);
+				vodja.igrajClovekovaPoteza(krizisce);
+				repaint();
+			}
 		}
 	}
 

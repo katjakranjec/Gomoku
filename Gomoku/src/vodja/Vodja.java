@@ -1,6 +1,5 @@
 package vodja;
 
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.SwingWorker;
@@ -9,11 +8,9 @@ import gui.Okno;
 import inteligenca.AlphaBeta;
 import inteligenca.Inteligenca;
 import inteligenca.Minimax;
-import inteligenca.OceniPozicijo;
+import inteligenca.RandomMinimax;
 
 import java.util.Map;
-import java.util.EnumMap;
-import java.util.List;
 
 import logika.Igra;
 import logika.Igralec;
@@ -34,13 +31,16 @@ public class Vodja {
 	public int velikost;
 	
 	public static int hitrost = 0;
+	
+	public static int globina = -1;
+	
+	public static String inteligenca = "";
 
 	public Vodja(Okno okno) {
 		this.igra = new Igra ();
 		this.poteza = null;
 		this.clovekNaVrsti = false;
 		this.okno = okno;
-		//igramo();
 	}
 	
 	public void igramo() {
@@ -65,22 +65,14 @@ public class Vodja {
 		}
 	}
 	
-	private static Random random = new Random ();
-	
-//	public void igrajRacunalnikovoPotezo() {
-//		List<Koordinati> moznePoteze = igra.moznePoteze;
-//		int randomIndex = random.nextInt(moznePoteze.size());
-//		Koordinati k = moznePoteze.get(randomIndex);
-//		igra.odigraj(k);
-//		poteza = k;
-//		igramo();
-//	}
-	
-	
-	//public static Inteligenca racunalnikovaInteligenca = new Minimax(1);
-	public static Inteligenca racunalnikovaInteligenca = new AlphaBeta(2);
+	public static Inteligenca racunalnikovaInteligenca;
 	
 	public void igrajRacunalnikovoPotezo() {
+		if (globina == -1) globina = 1;
+		if (inteligenca == "") racunalnikovaInteligenca = new AlphaBeta(globina);
+		if (inteligenca == "Minimax") racunalnikovaInteligenca = new Minimax(globina);
+		if (inteligenca == "RandomMinimax") racunalnikovaInteligenca = new RandomMinimax(globina);
+		if (inteligenca == "AlfaBeta") racunalnikovaInteligenca = new AlphaBeta(globina);
 		Igra zacetkaIgra = igra;
 		SwingWorker<Koordinati, Void> worker =
 		new SwingWorker<Koordinati, Void> () {
@@ -88,9 +80,6 @@ public class Vodja {
 			protected Koordinati doInBackground() {
 				Koordinati m = racunalnikovaInteligenca.izberiPotezo(igra);
 				try {TimeUnit.SECONDS.sleep(hitrost);} catch (Exception e) {};
-//				List<Koordinati> moznePoteze = igra.moznePoteze;
-//				int randomIndex = random.nextInt(moznePoteze.size());
-//				return moznePoteze.get(randomIndex);
 				System.out.println(m);
 				return m;
 			}
