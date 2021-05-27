@@ -17,7 +17,7 @@ public class Inteligenca extends splosno.KdoIgra {
 	
 	private int globina = 2;
 	
-	public Inteligenca (int globina) {
+	public Inteligenca () {
 		super("alphabeta globina " + globina);
 		this.globina = globina;
    		this.imeSkupine = KdoIgra.ime;
