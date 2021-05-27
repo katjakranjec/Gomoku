@@ -36,17 +36,29 @@ public class AlphaBeta extends Inteligenca {
 		List<Koordinati> moznePoteze = igra.moznePoteze;
 		Koordinati kandidat = moznePoteze.get(0); // Možno je, da se ne spremini vrednost kanditata. Zato ne more biti null.
 		for (Koordinati p: moznePoteze) {
+			int meja = 50;
+			if (globina == 1) meja = 50;
+			else if (globina == 2) meja = 300;
+			else if (globina == 3) meja = 200;
+			else if (globina == 4) meja = 80;
+			else if (globina == 5) meja = 50;
 			Igra kopijaIgre = new Igra(igra);
 			kopijaIgre.odigraj (p);
-			int ocenap;
+			int ocenap = OceniPozicijo.oceniPozicijo(kopijaIgre, jaz);
 			switch (kopijaIgre.stanje(p)) {
 			case ZMAGA_B: ocenap = (jaz == Igralec.B ? ZMAGA : PORAZ); break;
 			case ZMAGA_W: ocenap = (jaz == Igralec.W ? ZMAGA : PORAZ); break;
 			case NEODLOCENO: ocenap = NEODLOCENO; break;
 			default:
 				// Nekdo je na potezi
-				if (globina == 1) ocenap = OceniPozicijo.oceniPozicijo(kopijaIgre, jaz);
-				else ocenap = alphabetaPoteze (kopijaIgre, globina-1, alpha, beta, jaz).ocena;
+				if (igra.naPotezi() == jaz) {
+					if (globina == 1 || ocenap < meja || ocenap > 100000);
+					else ocenap = alphabetaPoteze (kopijaIgre, globina-1, alpha, beta, jaz).ocena;
+				}
+				else {
+					if (globina == 1 || ocenap > -meja || ocenap < -100000);
+					else ocenap = alphabetaPoteze (kopijaIgre, globina-1, alpha, beta, jaz).ocena;
+				}	
 			}
 			if (igra.naPotezi() == jaz) { // Maksimiramo oceno
 				if (ocenap > ocena) { // mora biti > namesto >=
