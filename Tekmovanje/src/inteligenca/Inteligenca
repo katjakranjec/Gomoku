@@ -15,12 +15,12 @@ public class Inteligenca extends splosno.KdoIgra {
 	private static final int PORAZ = -ZMAGA;  // vrednost izgube
 	private static final int NEODLOCENO = 0;  // vrednost neodloÄene igre	
 	
-	private int globina;
+	private int globina = 2;
 	
-	public Intelogenca (int globina) {
+	public Inteligenca (int globina) {
 		super("alphabeta globina " + globina);
 		this.globina = globina;
-    this.imeSkupine = KdoIgra.ime;
+   		this.imeSkupine = KdoIgra.ime;
 	}
 	
 	@Override
@@ -67,5 +67,4 @@ public class Inteligenca extends splosno.KdoIgra {
 		}
 		return new OcenjenaPoteza (kandidat, ocena);
 	}
-
 }
