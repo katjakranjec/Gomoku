@@ -41,7 +41,6 @@ public class Vodja {
 	}
 	
 	public void igramo() {
-		System.out.println(inteligenca);
 		okno.osveziGUI();
 		if (igra == null) return;
 		switch (igra.stanje(poteza)) {
@@ -66,8 +65,7 @@ public class Vodja {
 	public static Inteligenca racunalnikovaInteligenca;
 	
 	public void igrajRacunalnikovoPotezo() {
-		if (globina == -1) globina = 1;
-		racunalnikovaInteligenca = new Inteligenca(globina);
+		racunalnikovaInteligenca = new Inteligenca();
 		Igra zacetkaIgra = igra;
 		SwingWorker<Koordinati, Void> worker =
 		new SwingWorker<Koordinati, Void> () {
@@ -75,7 +73,6 @@ public class Vodja {
 			protected Koordinati doInBackground() {
 				Koordinati m = racunalnikovaInteligenca.izberiPotezo(igra);
 				try {TimeUnit.SECONDS.sleep(hitrost);} catch (Exception e) {};
-				System.out.println(m);
 				return m;
 			}
 			@Override
