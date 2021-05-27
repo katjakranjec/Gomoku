@@ -5,10 +5,7 @@ import java.util.concurrent.TimeUnit;
 import javax.swing.SwingWorker;
 
 import gui.Okno;
-import inteligenca.AlphaBeta;
 import inteligenca.Inteligenca;
-import inteligenca.Minimax;
-import inteligenca.RandomMinimax;
 
 import java.util.Map;
 
@@ -70,10 +67,7 @@ public class Vodja {
 	
 	public void igrajRacunalnikovoPotezo() {
 		if (globina == -1) globina = 1;
-		if (inteligenca == "") racunalnikovaInteligenca = new Minimax(globina);
-		if (inteligenca == "Minimax") racunalnikovaInteligenca = new Minimax(globina);
-		if (inteligenca == "RandomMinimax") racunalnikovaInteligenca = new RandomMinimax(globina);
-		if (inteligenca == "AlfaBeta") racunalnikovaInteligenca = new AlphaBeta(globina);
+		racunalnikovaInteligenca = new Inteligenca(globina);
 		Igra zacetkaIgra = igra;
 		SwingWorker<Koordinati, Void> worker =
 		new SwingWorker<Koordinati, Void> () {
