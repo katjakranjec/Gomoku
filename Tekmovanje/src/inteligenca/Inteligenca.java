@@ -48,7 +48,7 @@ public class Inteligenca extends splosno.KdoIgra {
 			if (globina == 1) meja = 50;
 			else if (globina == 2) meja = 200;
 			else if (globina == 3) meja = 100;
-			else if (globina == 4) meja = 50;
+			else if (globina == 4) meja = 70;
 			else if (globina == 5) meja = 50;
 		}
 		
