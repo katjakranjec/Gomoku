@@ -63,8 +63,8 @@ public class OceniPozicijo {
 		if (count_B == 4 && jaz == Igralec.W) count_B = 1000;
 		if (count_W == 4 && jaz == Igralec.W) count_W = 25;
 		if (count_B == 4 && jaz == Igralec.B) count_B = 25;
-		if (count_W == 3 && jaz == Igralec.B && (zaporedni_W == 3 || zaporedni_W == 2)) count_W = 25;
-		if (count_B == 3 && jaz == Igralec.W && (zaporedni_B == 3 || zaporedni_B == 2)) count_B = 25;
+		if (count_W == 3 && jaz == Igralec.B && (zaporedni_W == 3 || zaporedni_W == 2)) count_W = 50;
+		if (count_B == 3 && jaz == Igralec.W && (zaporedni_B == 3 || zaporedni_B == 2)) count_B = 50;
 		
 		
 		if (count_B > 0 && count_W > 0) { return 0; }

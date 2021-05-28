@@ -33,21 +33,21 @@ public class Inteligenca extends splosno.KdoIgra {
 		if (igra.naPotezi() == jaz) {ocena = PORAZ;} else {ocena = ZMAGA;}
 		List<Koordinati> moznePoteze = igra.moznePoteze;
 		Koordinati kandidat = moznePoteze.get(0); // Možno je, da se ne spremini vrednost kanditata. Zato ne more biti null.
-		
+		System.out.println(globina);
 		int meja = 50;
 		if (moznePoteze.size() > ((igra.n * igra.n) * 4 / 5) || moznePoteze.size() < ((igra.n * igra.n) * 1 / 5)) {
 			//System.out.println("Prva petina in zadnja petina");
 			if (globina == 1) meja = 50;
 			else if (globina == 2) meja = 150;
-			else if (globina == 3) meja = 100;
-			else if (globina == 4) meja = 50;
+			else if (globina == 3) meja = 50;
+			else if (globina == 4) meja = 20;
 			else if (globina == 5) meja = 20;
 		}
 		else {
 			//System.out.println("Ostalo");
 			if (globina == 1) meja = 50;
-			else if (globina == 2) meja = 150;
-			else if (globina == 3) meja = 70;
+			else if (globina == 2) meja = 200;
+			else if (globina == 3) meja = 100;
 			else if (globina == 4) meja = 50;
 			else if (globina == 5) meja = 50;
 		}
