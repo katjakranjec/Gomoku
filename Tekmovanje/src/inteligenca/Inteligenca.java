@@ -11,7 +11,7 @@ public class Inteligenca extends splosno.KdoIgra {
 	
 	private static final int ZMAGA = Integer.MAX_VALUE; // vrednost zmage
 	private static final int PORAZ = -ZMAGA;  // vrednost izgube
-	private static final int NEODLOCENO = 0;  // vrednost neodloèene igre	
+	private static final int NEODLOCENO = 0;  // vrednost neodloĂ¨ene igre	
 	
 	private static int globina = 5;
 	public String imeSkupine;
@@ -22,17 +22,17 @@ public class Inteligenca extends splosno.KdoIgra {
 	}
 
 	public Koordinati izberiPotezo (Igra igra) {
-		// Na zaèetku alpha = PORAZ in beta = ZMAGA
+		// Na zaĂ¨etku alpha = PORAZ in beta = ZMAGA
 		return alphabetaPoteze(igra, globina, PORAZ, ZMAGA, igra.naPotezi()).poteza;
 	}
 	
 	public static OcenjenaPoteza alphabetaPoteze(Igra igra, int globina, int alpha, int beta, Igralec jaz) {
 		int ocena;
-		// Èe sem raèunalnik, maksimiramo oceno z zaèetno oceno PORAZ
-		// Èe sem pa èlovek, minimiziramo oceno z zaèetno oceno ZMAGA
+		// Ă�e sem raĂ¨unalnik, maksimiramo oceno z zaĂ¨etno oceno PORAZ
+		// Ă�e sem pa Ă¨lovek, minimiziramo oceno z zaĂ¨etno oceno ZMAGA
 		if (igra.naPotezi() == jaz) {ocena = PORAZ;} else {ocena = ZMAGA;}
 		List<Koordinati> moznePoteze = igra.moznePoteze;
-		Koordinati kandidat = moznePoteze.get(0); // Možno je, da se ne spremini vrednost kanditata. Zato ne more biti null.
+		Koordinati kandidat = moznePoteze.get(0); // MoĹľno je, da se ne spremini vrednost kanditata. Zato ne more biti null.
 		System.out.println(globina);
 		int meja = 50;
 		if (moznePoteze.size() > ((igra.n * igra.n) * 4 / 5) || moznePoteze.size() < ((igra.n * igra.n) * 1 / 5)) {
@@ -55,7 +55,7 @@ public class Inteligenca extends splosno.KdoIgra {
 		for (Koordinati p: moznePoteze) {
 			Igra kopijaIgre = new Igra(igra);
 			kopijaIgre.odigraj (p);
-			int ocenap = OceniPozicijo.oceniPozicijo(kopijaIgre, jaz, p);
+			int ocenap = OceniPozicijo.oceniPozicijo(kopijaIgre, jaz);
 			switch (kopijaIgre.stanje(p)) {
 			case ZMAGA_B: ocenap = (jaz == Igralec.B ? ZMAGA : PORAZ); break;
 			case ZMAGA_W: ocenap = (jaz == Igralec.W ? ZMAGA : PORAZ); break;
