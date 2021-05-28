@@ -10,29 +10,37 @@ import splosno.Koordinati;
 
 public class OceniPozicijo {
 	
+	HashSet<Vrsta> vrste;
+	
 	// Metoda oceniPozicijo za igro TicTacToe
 	
-	public static int oceniPozicijo(Igra igra, Igralec jaz) {
-		int ocena = 0;
-		HashSet<Vrsta> vrste = new HashSet<Vrsta>();
-		for (Koordinati p : igra.odigraneB) {
-			HashSet<Vrsta> vrsteB = igra.pridobiVrste(p);
-			for (Vrsta m : vrsteB) {
-				//System.out.println(m);
-				vrste.add(m);
+	public static int oceniPozicijo(Igra igra, Igralec jaz, Koordinati poteza) {
+		if (vrste == null) {
+			int ocena = 0;
+			HashSet<Vrsta> vrste = new HashSet<Vrsta>();
+			for (Koordinati p : igra.odigraneB) {
+				HashSet<Vrsta> vrsteB = igra.pridobiVrste(p);
+				for (Vrsta m : vrsteB) {
+					vrste.add(m);
+				}
 			}
+			for (Koordinati p : igra.odigraneW) {
+				HashSet<Vrsta> vrsteB = igra.pridobiVrste(p);
+				for (Vrsta m : vrsteB) {
+					vrste.add(m);
+				}
+			}		
 		}
-		for (Koordinati p : igra.odigraneW) {
-			HashSet<Vrsta> vrsteB = igra.pridobiVrste(p);
-			for (Vrsta m : vrsteB) {
-				//System.out.println(m);
-				vrste.add(m);
+		else {
+			vrsteP = igra.pridobiVrste(poteza);
+			for (Vrsta v : vrsteP) {
+				vrste.add(v);
 			}
 		}
 		for (Vrsta v : vrste) {
 			ocena = ocena + oceniVrsto(v, igra, jaz);
 		}
-		return ocena;	
+		return ocena;
 	}
 	
 	public static int oceniVrsto (Vrsta v, Igra igra, Igralec jaz) {
