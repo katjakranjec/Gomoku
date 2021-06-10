@@ -36,9 +36,6 @@ public class AlphaBeta extends Inteligenca {
 		List<Koordinati> moznePoteze = igra.moznePoteze;
 		Koordinati kandidat = moznePoteze.get(0); // Možno je, da se ne spremini vrednost kanditata. Zato ne more biti null.
 		
-//		if (globina != 5) {
-//			System.out.println(globina);
-//		}
 		
 		int meja = 50;
 		if (moznePoteze.size() > ((igra.n * igra.n) * 4 / 5) || moznePoteze.size() < ((igra.n * igra.n) * 1 / 5)) {

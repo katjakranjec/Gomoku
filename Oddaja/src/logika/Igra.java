@@ -184,18 +184,4 @@ public class Igra {
 		}
 	}
 
-//	public Koordinati razveljavi() {
-//		Koordinati poteza = null;
-//		if (naPotezi.nasprotnik() == Igralec.W && odigraneW.size() != 0) {
-//			poteza = odigraneW.remove(odigraneW.size() - 1);
-//			moznePoteze.add(poteza);
-//			plosca[poteza.getX()][poteza.getY()] = Polje.PRAZNO;
-//		} else if (odigraneB.size() != 0){
-//			poteza = odigraneB.remove(odigraneB.size() - 1);
-//			moznePoteze.add(poteza);
-//			plosca[poteza.getX()][poteza.getY()] = Polje.PRAZNO;
-//		}
-//		naPotezi = naPotezi.nasprotnik();
-//		return poteza;
-//	}
 }
