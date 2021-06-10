@@ -38,7 +38,7 @@ public class Okno extends JFrame implements ActionListener, ChangeListener{
 	
 	private JLabel status;
 	
-//	 Izbire v menujih
+	// Možne izbire v menijh
 	private JMenu igra_menu;
 	private JMenuItem igraClovekRacunalnik;
 	private JMenuItem igraRacunalnikClovek;
@@ -59,15 +59,16 @@ public class Okno extends JFrame implements ActionListener, ChangeListener{
 	private JSlider izberiHitrost;
 	private JMenu algoritem;
 	private JMenuItem minimax;
-	private JMenuItem randomMinimax;
+//	private JMenuItem randomMinimax;
 	private JMenuItem alfaBeta;
 	private JMenu globina;
 	private JSlider izberiGlobino;
-	private JButton razveljavi;
+//	private JButton razveljavi;
 	
 	private String StringImeW;
 	private String StringImeB;
 	
+	// Konstruktor Okno(), ki ustvari novo platno in nastavi lastnosti platna ter ga doda v okno
 	public Okno() {
 		setTitle("Gomoku");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -85,15 +86,15 @@ public class Okno extends JFrame implements ActionListener, ChangeListener{
 		polje_layout.weighty = 1.0;
 		getContentPane().add(platno, polje_layout);
 		
-//		Menu
+		// Vrtica z meniji:
 		
-//		Nova igra
+		// Meni Nova igra:
 		JMenuBar menu_bar = new JMenuBar();
 		this.setJMenuBar(menu_bar);
 		igra_menu = new JMenu("Nova igra");
 		menu_bar.add(igra_menu);
 		
-//		Velikost igralnega polja
+		// Nastavitve velikosti igralnega polja
 		velikost = new JMenu("Velikost igralnega polja");
 		igra_menu.add(velikost);		
 		
@@ -113,7 +114,7 @@ public class Okno extends JFrame implements ActionListener, ChangeListener{
 		izberiVelikost.setLabelTable(labelTableVelikost);
 		izberiVelikost.setPaintLabels(true);
 		
-//		izbire vrst iger
+		// Izbira vrste iger
 		igraRacunalnikClovek = new JMenuItem("Èlovek - Raèunalnik ");
 		igra_menu.add(igraRacunalnikClovek);
 		igraRacunalnikClovek.addActionListener(this);
@@ -130,11 +131,11 @@ public class Okno extends JFrame implements ActionListener, ChangeListener{
 		igra_menu.add(igraRacunalnikRacunalnik);
 		igraRacunalnikRacunalnik.addActionListener(this);
 
-//		Nastavitve
+		// Meni Nastavitve:
 		JMenu nastavitve = new JMenu("Nastavitve");
 		menu_bar.add(nastavitve);
 		
-//		Nastavitve za igralce
+		//Nastavitve za igralce
 		nastavitveIgralca = new JMenu("Nastavitve igralcev...");
 		nastavitve.add(nastavitveIgralca);
 		
@@ -154,7 +155,7 @@ public class Okno extends JFrame implements ActionListener, ChangeListener{
 		nastavitveIgralca.add(barvaB);
 		barvaB.addActionListener(this);
 		
-//		Nastavitve za raèunalnik
+		//Nastavitve za raèunalnik
 		nastavitveRacunalnika = new JMenu("Nastavitve raèunalnika...");
 		nastavitve.add(nastavitveRacunalnika);
 		
@@ -185,9 +186,9 @@ public class Okno extends JFrame implements ActionListener, ChangeListener{
 		algoritem.add(minimax);
 		minimax.addActionListener(this);
 		
-		randomMinimax = new JMenuItem("Random Minimax");
-		algoritem.add(randomMinimax);
-		randomMinimax.addActionListener(this);
+//		randomMinimax = new JMenuItem("Random Minimax");
+//		algoritem.add(randomMinimax);
+//		randomMinimax.addActionListener(this);
 		
 		alfaBeta = new JMenuItem("AlfaBeta");
 		algoritem.add(alfaBeta);
@@ -213,7 +214,7 @@ public class Okno extends JFrame implements ActionListener, ChangeListener{
 		izberiGlobino.setLabelTable( labelTableGlobina );
 		izberiGlobino.setPaintLabels(true);
 		
-//		Nastavitve barv
+		//Nastavitve barv
 		barvePolja = new JMenu("Barva polja...");
 		nastavitve.add(barvePolja);
 		barvePolja.addActionListener(this);
@@ -227,16 +228,16 @@ public class Okno extends JFrame implements ActionListener, ChangeListener{
 		barvaOzadja.addActionListener(this);
 		
 //		Gumb Razveljavi
-		JPanel gumb = new JPanel();
-		gumb.setLayout(new FlowLayout(FlowLayout.TRAILING));
+//		JPanel gumb = new JPanel();
+//		gumb.setLayout(new FlowLayout(FlowLayout.TRAILING));
+//		
+//		razveljavi = new JButton("Razveljavi");
+//		gumb.add(razveljavi);
+//		razveljavi.addActionListener(this);
+//		
+//		menu_bar.add(gumb);
 		
-		razveljavi = new JButton("Razveljavi");
-		gumb.add(razveljavi);
-		razveljavi.addActionListener(this);
-		
-		menu_bar.add(gumb);
-		
-//		statusna vrstica za sporoèila
+		//Statusna vrstica za sporoèila
 		status = new JLabel();
 		status.setFont(new Font(status.getFont().getName(),
 							    status.getFont().getStyle(),
@@ -327,25 +328,26 @@ public class Okno extends JFrame implements ActionListener, ChangeListener{
 			
 		} else if (e.getSource() == minimax) {
 			Vodja.inteligenca = "Minimax";
-		} else if (e.getSource() == randomMinimax) {
-			Vodja.inteligenca = "RandomMinimax";
+//		} else if (e.getSource() == randomMinimax) {
+//			Vodja.inteligenca = "RandomMinimax";
 		} else if (e.getSource() == alfaBeta) {
 			Vodja.inteligenca = "AlfaBeta";
-		} else if (e.getSource() == razveljavi){
-			if (platno.vodja.vrstaIgralca != null) {				
-				if (platno.vodja.igra.odigraneB.size() != 0 || platno.vodja.igra.odigraneW.size() != 0) {
-					Koordinati p = platno.vodja.igra.razveljavi();
-					platno.vodja.poteza = p;
-					platno.zmagovalec = null;
-					platno.vodja.igramo();
-					osveziGUI();
-				}
-				else status.setText("Ni mogoèe razveljaviti!");
-			}
+//		} else if (e.getSource() == razveljavi){
+//			if (platno.vodja.vrstaIgralca != null) {				
+//				if (platno.vodja.igra.odigraneB.size() != 0 || platno.vodja.igra.odigraneW.size() != 0) {
+//					Koordinati p = platno.vodja.igra.razveljavi();
+//					platno.vodja.poteza = p;
+//					platno.zmagovalec = null;
+//					platno.vodja.igramo();
+//					osveziGUI();
+//				}
+//				else status.setText("Ni mogoèe razveljaviti!");
+//			}
 		}
 		platno.repaint();
 	}
 	
+	// Metoda osveziGUI, ki spreminja sporoèila v vrstici, glede na potek in stanje igre
 	public void osveziGUI() {
 		if (platno.vodja == null) {
 			status.setText("Igra ni v teku.");

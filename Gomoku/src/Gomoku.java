@@ -3,6 +3,7 @@ import vodja.Vodja;
 
 public class Gomoku {
 	
+	//Metoda odpre novo prazno okno
 	public static void main(String[] args) {
 		
 		Okno okno = new Okno();

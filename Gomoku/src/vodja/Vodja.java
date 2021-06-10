@@ -36,6 +36,8 @@ public class Vodja {
 	
 	public static String inteligenca = "";
 
+	
+	// Konstruktor Vodja(Okno okno), ki nastavi zaèetne vrednosti spremenljivk
 	public Vodja(Okno okno) {
 		this.igra = new Igra ();
 		this.poteza = null;
@@ -43,6 +45,8 @@ public class Vodja {
 		this.okno = okno;
 	}
 	
+	// Metoda igramo, ki nadzira potek igre. Iz metode odhajamo, ko je stanje enako
+	// ZMAGA_B, ZMAGA_W ali NEODLOÈENO.
 	public void igramo() {
 		okno.osveziGUI();
 		if (igra == null) return;
@@ -50,7 +54,7 @@ public class Vodja {
 		case ZMAGA_W:
 		case ZMAGA_B: 
 		case NEODLOCENO:
-			return; // odhajamo iz metode igramo
+			return;
 		case V_TEKU: 
 			Igralec igralec = igra.naPotezi;
 			VrstaIgralca vrstaNaPotezi = vrstaIgralca.get(igralec);
@@ -67,6 +71,7 @@ public class Vodja {
 	
 	public static Inteligenca racunalnikovaInteligenca;
 	
+	// Metoda, ki odigra raèunalnikovo potezo. Metoda ne vraèa nièesar.
 	public void igrajRacunalnikovoPotezo() {
 		if (globina == -1) globina = 1;
 		if (inteligenca == "") racunalnikovaInteligenca = new AlphaBeta(globina);
@@ -89,7 +94,6 @@ public class Vodja {
 				try {k = get();} catch (Exception e) {};
 				if (igra == zacetkaIgra) {
 					igra.odigraj(k);
-					//OceniPozicijo.oceniPozicijo(zacetkaIgra, Igralec.W);
 					poteza = k;
 					igramo ();
 				}
@@ -98,6 +102,7 @@ public class Vodja {
 		worker.execute();
 	}
 	
+	// Metoda, ki odigra èlovekovo potezo. Metoda ne vraèa nièesar.
 	public void igrajClovekovaPoteza(Koordinati k){
 		if (igra.odigraj(k)) clovekNaVrsti = false;
 		poteza = k;
